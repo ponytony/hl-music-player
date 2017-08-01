@@ -1,0 +1,391 @@
+/*
+global
+ */
+body,html{
+  width: 100%;
+  height:100%;
+  position: relative;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  color: #333;
+  word-wrap: break-word;
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+a{
+  cursor: pointer;
+  color:#333;
+}
+
+em,i{
+  font-style: normal;
+  text-align: left;
+  font-size: inherit;
+}
+
+/*
+same feature
+ */
+
+.btns,.head,.playbar,.oper,.ctrl{
+  float: left;
+}
+img{
+  border: 0;
+}
+
+
+/*
+stage
+ */
+.stage{
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  bottom: 0;
+  .icn{
+    float: left;
+    width: 25px;
+    height:25px;
+    margin: 11px 2px 0 0;
+    text-indent: -1000px;
+  }
+  .icn-add{
+    background-position: -88px -163px;
+  }
+
+  .icn-add:hover{
+    background-position: -88px -189px;
+  }
+  .icn-share{
+    background-position: -114px -163px;
+  }
+
+  .icn-share:hover{
+    background-position: -114px -189px;
+  }
+  .icn-vol{
+    background-position: -2px -248px;
+  }
+
+  .icn-vol:hover {
+    background-position: -31px -248px;
+  }
+  .icn-loop{
+    background-position: -3px -344px;
+  }
+
+  .icn-loop:hover {
+    background-position: -33px -344px;
+  }
+  .icn-one {
+    background-position: -66px -344px;
+  }
+
+  .icn-one:hover {
+    background-position: -93px -344px;
+  }
+
+  .icn-shuffle {
+    background-position: -66px -248px;
+  }
+
+  .icn-shuffle:hover {
+    background-position: -93px -248px;
+  }
+
+  .icn-list{
+    display: block;
+    float: none;
+    width: 38px;
+    padding-left: 21px;
+    background-position: -42px -68px;
+    line-height: 27px;
+    text-align: center;
+    color:#666;
+    text-shadow: 0 1px 0 #080707;
+    text-decoration: none;
+  }
+
+  .icn-list:hover {
+    background-position: -42px -98px;
+    text-decoration: none;
+  }
+}
+
+/*
+player stage background
+ */
+.bg{
+  width:100%;
+  height:53px;
+  margin-right: 67px;
+  position: absolute;
+  bottom: 0;
+  background-position: 0 0;
+  background-repeat: repeat-x;
+}
+
+/*
+handle
+ */
+
+.handle{
+  width: 100%;
+  height: 20px;
+  position: absolute;
+  bottom: 43px;
+  background-color: black;
+  cursor: pointer;
+}
+
+/*
+controlbar
+ */
+
+.control{
+  position: absolute;
+  left: 50%;
+  width: 980px;
+  height:47px;
+  margin-left: -490px;
+  bottom: 5px;
+  .btns{
+    width:137px;
+    padding: 6px 0 0 0;
+    a{
+      display: block;
+      float: left;
+      width: 28px;
+      height:28px;
+      margin:5px 8px 0 0;
+      text-indent: -1000px;
+    }
+    .prev{
+      background-position: 0 -130px;
+    }
+    .prev:hover{
+      background-position:-30px -130px;
+    }
+    .play{
+      background-position: 0 -204px;
+      width:36px;
+      height:36px;
+      margin-top: 0;
+    }
+    .play:hover{
+      background-position: -40px -204px;
+    }
+    .next{
+      background-position: -80px -130px;
+    }
+    .next:hover{
+      background-position: -110px -130px;
+    }
+
+  }
+  .head{
+    position: relative;  //???
+    margin:6px 15px 0 0;
+    width:34px;
+    height:34px;
+    img{
+      width:34px;
+      height:34px;
+    }
+    a{
+      position: absolute;
+      left: 0;
+      top:0;
+      width:34px;
+      height:35px;
+      background-position: 0 -80px;
+    }
+  }
+  .playbar{
+    width: 608px;
+    position: relative;
+    .topbar{
+      height:28px;
+      overflow: hidden;
+      color:#e8e8e8;
+      text-shadow: 0 1px 0 #171717;
+      line-height: 28px;
+    }
+    .play-bar{
+      width:493px;
+      position: relative;
+      .time-bar{
+        width:493px;
+        height:9px;
+        background-position: right 0;
+        .rdy{
+          background-position: right -30px;
+          height: 9px;
+        }
+        .cur{
+          position:absolute;
+          left: 0;
+          top:0;
+          width:1%;
+          background-position:left -66px;
+          .btn{
+            position: absolute;
+            top:-7px;
+            right: -13px;
+            width:22px;
+            height:24px;
+            margin-left: -11px;
+            background-position: 0 -250px;
+            //_background-position:0 0;
+          }
+          .btn:hover{
+            background-position: 0 -280px;
+            //_background-position: 0 0;
+          }
+        }
+        .total-time{
+          position: absolute;
+          top:-3px;
+          right:-84px;
+          color:#797979;
+          text-shadow: 0 1px 0 #121212;
+          .playing-time{
+            color:#a1a1a1;
+          }
+        }
+
+      }
+
+    }
+  }
+  .oper{
+    width:60px;
+  }
+  .ctrl{
+    position: relative;
+    width:113px;
+    padding-left: 13px;
+    background-position: -147px;
+    float: left;
+    .vol-cont{
+      position:absolute;
+      top:-113px;
+      left: 9px;
+      clear: both;
+      width:32px;
+      height:113px;
+      .v-container{
+        position:absolute;
+        top:0;
+        left: 0;
+        background-position: 0 -503px;
+        width:32px;
+        height:113px;
+      }
+      .v-bar{
+        position:absolute;
+        padding: 4px 0;
+        top:7px;
+        left: 14px;
+        width:4px;
+        height:93px;
+        .v-all{
+          position:absolute;
+          bottom: 4px;
+          left: 0;
+          background-position: -40px bottom;
+          overflow: hidden;
+          top:auto;
+          width:4px;
+        }
+        .volumn-cir{
+          position: absolute;
+          left: -7px;
+          display: block;
+          width: 18px;
+          height:20px;
+          background-position: -40px -250px;
+          cursor: pointer;
+        }
+      }
+    }
+    .add{
+      float: left;
+      position: relative;
+      height: 36px;
+      width: 59px;
+      zoom:1;
+    }
+    .tip{
+      position: absolute;
+      top:-51px;
+      left: -65px;
+      clear: both;
+      width: 152px;
+      height:49px;
+      background-position: 0 -287px;
+      text-align: center;
+      color: #fff;
+      line-height: 37px;
+    }
+    .tip-1{
+      top: -35px;
+      left: 12px;
+      width: 81px;
+      height: 39px;
+      line-height: 34px;
+      background-position: 0 -457px;
+    }
+
+  }
+}
+
+/*
+player list and lrc etc.
+ */
+
+.list{
+  position: absolute;
+  left: 50%;
+  width: 986px;
+  height:301px;
+  margin-left: -493px;
+  bottom: 47px;
+  background-color: #006699;
+}
+
+/*
+updown
+ */
+.updn{
+  position: inherit;
+  right:0;
+  bottom: 0;
+  background-color: yellow;
+  .lock-bg{
+    position: inherit;
+    right: 15px;
+    top:-14px;
+    width:52px;
+    height:67px;
+    background-position: 0 -380px;
+    .btn{
+      display: block;
+      width: 18px;
+      height:18px;
+      margin: 6px 0 0 17px;
+    }
+    .btn:hover{
+      text-decoration: underline;
+    }
+  }
+}
+
+
