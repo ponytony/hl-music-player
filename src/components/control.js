@@ -51,10 +51,10 @@ class Control extends React.Component{
             </div>
           </div>
           <a href="javascripts:" hidefocus="true" className="icn icn-vol" title="音量"></a>
-          <a href="javascripts:" hidefocus="true" className="mode" title="模式"></a>
+          {mode}
           <span className="add">
             <span className="tip">已经添加到播放列表</span>  //平时隐藏
-            <a href="javascripts:" hidefocus="true" title="播放列表" className="icn icn-list"></a>
+            <a href="javascripts:" hidefocus="true" title="播放列表" className="icn icn-list">{songnum}</a>
           </span>
           <div className="tip tip-1">循环</div>   //平时隐藏
 
