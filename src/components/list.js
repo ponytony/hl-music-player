@@ -13,7 +13,7 @@ class NoSong extends React.Component{
   render(){
     return (
       <div className="nocnt">
-        <i className="icn icn-face"></i>
+        <i className="icn"></i>
           你还没有添加任何歌曲
           去首页
           <a href='shouye' className='nolist'>发现音乐</a>
@@ -32,16 +32,16 @@ class SongList extends React.Component{
       <div className="col col2">{songname}</div>
       <div className="col col3">
         <div className="icns">
-          <i className="ico icn-del" title="删除" >删除</i>
-          <i className="ico ico-dl" title="下载" >下载</i>
-          <i className="ico ico-share" title="分享" >分享</i>
-          <i className="j-t ico ico-add" title="收藏" >收藏</i>
+          <i className="icn icn-del" title="删除" >删除</i>
+          <i className="icn icn-dl" title="下载" >下载</i>
+          <i className="icn icn-share" title="分享" >分享</i>
+          <i className="j-t icn icn-add" title="收藏" >收藏</i>
         </div>
       </div>
       <div className="col col4"><span title={singer}><a href="aaa" hidefocus="true">{singer}</a></span></div>
       <div className="col col5">{songtime}</div>
       <div className="col col6">
-        <a href="{gedan}" class="ico ico-src" title="来自歌单">来源</a>
+        <a href="{gedan}" class="icn icn-src" title="来自歌单">来源</a>
       </div>
     </li>
   }
@@ -50,7 +50,7 @@ class SongList extends React.Component{
 class ScrollBar1 extends React.Component{
   render(){
     return (
-      <span className="scrol" hidefocus="true"
+      <span className="scroll" hidefocus="true"
             style={"height: 51.3678px; display: block; top: 0px;"}></span>
     )
   }
@@ -59,7 +59,8 @@ class ScrollBar1 extends React.Component{
 class LrcList extends React.Component{
   render(){
     return (
-      <p className="songlrc" ></p><br><p className="songlrc" ></p>
+      <p className="songlrc" ></p>
+
     )
   }
 }
@@ -80,9 +81,26 @@ class FindLrc extends React.Component{
 class ScrollBar2 extends React.Component{
   render(){
     return (
-    <span className="scrol scrol-1" hidefocus="true"
+    <span className="scroll scroll-1" hidefocus="true"
     style={"height: 48.0912px; display: block; top: 0px;"}>
     </span>
+    )
+  }
+}
+class PlayIcn extends React.Component{
+  render(){
+    return (
+      <div className="playicn"></div>
+    )
+  }
+}
+
+class Ask extends  React.Component{
+  render(){
+    return(
+      <div className="ask">
+        <a className="icn icn-ask"></a>
+      </div>
     )
   }
 }
@@ -99,7 +117,7 @@ class List extends React.Component{
               收藏全部</a>
             <span className="line"></span>
             <a href="javascript:" className="clean">
-              <span className="icn icn-clean"></span>
+              <span className="icn icn-del"></span>
               清除
             </a>
             <p className="song-title"></p>
@@ -107,18 +125,21 @@ class List extends React.Component{
           </div>
         </div>
         <div className="list-bd">
+          <img className="songbg"></img>
+          <div className="msk"></div>
           <div className="song-list">{nonlist}{songlist}</div>
           <div className="scrollbar1">
             {scrollbar1}
           </div>
+          <div className="error">
+            <a href="aaaaaaaa">报错
+            </a>
+          </div>
+          <div className="msk2"></div>
           <div className="song-lrc">
-            <div className="song-lrc-list">
-              {lrclist}
-            </div>
+            {lrclist}
           </div>
-          <div className="ask">
-            <a className="icn icn-ask"></a>
-          </div>
+          {ask}
           <div className="scrollbar2">
             {scrollbar2}
           </div>
