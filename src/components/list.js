@@ -8,13 +8,25 @@
 
 
 import React from 'react';
+import icons from '../utils/parseIcon';
+let styleObj1={};
+styleObj1.background='url('+icons.playbar+')';
+let styleObj2={};
+styleObj2.background='url('+icons.playlist+')';
+let styleObj3={};
+styleObj3.background='url('+icons.playlist_bg+')';
+let styleObj4={};
+styleObj4.background='url('+icons.statbar+')';
+let styleObj5={};
+styleObj5.background='url('+icons.iconall+')';
 
 class NoSong extends React.Component{
   render(){
     return (
       <div className="nocnt">
-        <i className="icn"></i>
+        <i className="icn" style={styleObj2}></i>
           你还没有添加任何歌曲
+        <br/>
           去首页
           <a href='shouye' className='nolist'>发现音乐</a>
           ,或者在
@@ -28,20 +40,20 @@ class NoSong extends React.Component{
 class SongList extends React.Component{
   render(){
     <li>
-      <div className="col col1">{playicn}</div>
-      <div className="col col2">{songname}</div>
+      <div className="col col1"></div>
+      <div className="col col2"></div>
       <div className="col col3">
         <div className="icns">
-          <i className="icn icn-del" title="删除" >删除</i>
-          <i className="icn icn-dl" title="下载" >下载</i>
-          <i className="icn icn-share" title="分享" >分享</i>
-          <i className="j-t icn icn-add" title="收藏" >收藏</i>
+          <i className="icn icn-del" title="删除" style={styleObj2}>删除</i>
+          <i className="icn icn-dl" title="下载" style={styleObj2}>下载</i>
+          <i className="icn icn-share" title="分享" style={styleObj2}>分享</i>
+          <i className="j-t icn icn-add" title="收藏" style={styleObj2}>收藏</i>
         </div>
       </div>
-      <div className="col col4"><span title={singer}><a href="aaa" hidefocus="true">{singer}</a></span></div>
-      <div className="col col5">{songtime}</div>
+      <div className="col col4"><span><a href="aaa" ></a></span></div>
+      <div className="col col5"></div>
       <div className="col col6">
-        <a href="{gedan}" class="icn icn-src" title="来自歌单">来源</a>
+        <a href="{gedan}" class="icn icn-src" title="来自歌单" style={styleObj2}>来源</a>
       </div>
     </li>
   }
@@ -50,8 +62,7 @@ class SongList extends React.Component{
 class ScrollBar1 extends React.Component{
   render(){
     return (
-      <span className="scroll" hidefocus="true"
-            style={"height: 51.3678px; display: block; top: 0px;"}></span>
+      <span className="scroll"></span>
     )
   }
 }
@@ -81,8 +92,7 @@ class FindLrc extends React.Component{
 class ScrollBar2 extends React.Component{
   render(){
     return (
-    <span className="scroll scroll-1" hidefocus="true"
-    style={"height: 48.0912px; display: block; top: 0px;"}>
+    <span className="scroll scroll-1">
     </span>
     )
   }
@@ -99,7 +109,7 @@ class Ask extends  React.Component{
   render(){
     return(
       <div className="ask">
-        <a className="icn icn-ask"></a>
+        <a className="icn icn-ask" style={styleObj2}></a>
       </div>
     )
   }
@@ -107,29 +117,32 @@ class Ask extends  React.Component{
 
 class List extends React.Component{
   render(){
+
     return (
       <div className="list">
-        <div className="list-top">
+        <div className="list-top" style={styleObj3}>
           <div className="list-top-detail">
-            <h4>播放列表(<span>{songnum}</span>)</h4>
+            <h4>播放列表(<span></span>)</h4>
             <a href="javascript:" className="addall">
-              <span className="icn icn-add"></span>
+              <span className="icn icn-add1" style={styleObj2}></span>
               收藏全部</a>
             <span className="line"></span>
             <a href="javascript:" className="clean">
-              <span className="icn icn-del"></span>
+              <span className="icn icn-del" style={styleObj2}></span>
               清除
             </a>
             <p className="song-title"></p>
-            <span className="close">关闭</span>
+            <span className="close" style={styleObj2}>关闭</span>
           </div>
         </div>
-        <div className="list-bd">
+        <div className="list-bd" style={styleObj3}>
           <img className="songbg"></img>
           <div className="msk"></div>
-          <div className="song-list">{nonlist}{songlist}</div>
+          <div className="song-list">
+            <NoSong/>
+          </div>
           <div className="scrollbar1">
-            {scrollbar1}
+            <ScrollBar1/>
           </div>
           <div className="error">
             <a href="aaaaaaaa">报错
@@ -137,11 +150,11 @@ class List extends React.Component{
           </div>
           <div className="msk2"></div>
           <div className="song-lrc">
-            {lrclist}
+            <FindLrc/>
           </div>
-          {ask}
+          <Ask/>
           <div className="scrollbar2">
-            {scrollbar2}
+            <ScrollBar2/>
           </div>
         </div>
       </div>

@@ -6,15 +6,21 @@
  *
  */
 import React from 'react';
-import icons from './parseIcon'
+import icons from '../utils/parseIcon';
 
 class LockBar extends React.Component {
 
+
   render() {
+    let styleObj1={};
+    styleObj1.background='url('+icons.playbar+')';
 
     return (
-      <div className='lock-bg'>
-        <a className="btn" href="javascripts:"></a>
+      <div className="updn">
+      <div className='lock-bg' style={styleObj1}>
+        <a className="btn" href="javascripts:;" style={styleObj1}></a>
+      </div>
+        <div className="lock-bg2" style={styleObj1}></div>
       </div>
     )
   }

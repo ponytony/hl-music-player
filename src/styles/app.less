@@ -1,3 +1,4 @@
+
 /*
 global
  */
@@ -24,6 +25,7 @@ li{
 a{
   cursor: pointer;
   color:#333;
+  outline: none;
 }
 
 em,i{
@@ -47,11 +49,26 @@ img{
 /*
 stage
  */
+.player-base{
+  position: fixed;
+  //_position: absolute;
+  zoom: 1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  width: 100%;
+  z-index: 1002;
+}
 .stage{
   position: absolute;
-  width: 10px;
-  height: 10px;
-  bottom: 0;
+  zoom: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 53px;
+  margin: 0 auto;
+  transition: top .6s ease-in-out;
   .col .icn{
     float: right;
     overflow: hidden;
@@ -67,55 +84,58 @@ stage
   }
 
   .icn-add{
-    width: 16px;
-    background-position: -88px -163px;
+    background-position: -88px -163px!important;
+    background-repeat: no-repeat;
   }
 
   .icn-add:hover{
-    background-position: -88px -189px;
+    background-position: -88px -189px!important;
+    background-repeat: no-repeat;
+  }
+  .icn-add1{
+    background-position: -24px 0!important;
   }
   .icn-share{
-    width: 14px;
-    background-position: -114px -163px;
+    background-position: -114px -163px!important;
   }
 
   .icn-share:hover{
-    background-position: -114px -189px;
+    background-position: -114px -189px!important;
   }
   .icn-vol{
-    background-position: -2px -248px;
+    background-position: -2px -248px!important;
   }
 
   .icn-vol:hover {
-    background-position: -31px -248px;
+    background-position: -31px -248px!important;
   }
   .icn-volno{
-    background-position: -104px -69px;
+    background-position: -104px -69px!important;
   }
   .icn-volno:hover{
-    background-position:-126px -69px;
+    background-position:-126px -69px!important;
   }
   .icn-loop{
-    background-position: -3px -344px;
+    background-position: -3px -344px!important;
   }
 
   .icn-loop:hover {
-    background-position: -33px -344px;
+    background-position: -33px -344px!important;
   }
   .icn-one {
-    background-position: -66px -344px;
+    background-position: -66px -344px!important;
   }
 
   .icn-one:hover {
-    background-position: -93px -344px;
+    background-position: -93px -344px!important;
   }
 
   .icn-shuffle {
-    background-position: -66px -248px;
+    background-position: -66px -248px!important;
   }
 
   .icn-shuffle:hover {
-    background-position: -93px -248px;
+    background-position: -93px -248px!important;
   }
 
   .icn-list{
@@ -123,7 +143,7 @@ stage
     float: none;
     width: 38px;
     padding-left: 21px;
-    background-position: -42px -68px;
+    background-position: -42px -68px!important;
     line-height: 27px;
     text-align: center;
     color:#666;
@@ -132,57 +152,63 @@ stage
   }
 
   .icn-list:hover {
-    background-position: -42px -98px;
+    background-position: -42px -98px!important;
     text-decoration: none;
   }
 
   .icn-del{
     width: 13px;
-    background-position: -51px 0;
+    background-position: -51px 0!important;
   }
   a:hover .icn-del{
-    background-position: -51px -20px;
+    background-position: -51px -20px!important;
   }
   .icn-dl{
     width: 14px;
-    background-position: -57px -50px;
+    background-position: -57px -50px!important;
   }
   .icn-dl:hover{
-    background-position: -80px -50px;
+    background-position: -80px -50px!important;
   }
   .icn-src{
     width: 14px;
     margin-left: 0;
-    background-position: -80px 0;
+    background-position: -80px 0!important;
   }
   .icn-src:hover{
-    background-position: -80px -20px ;
+    background-position: -80px -20px!important;
   }
   .icn-ask{
     display: inline-block;
     width: 21px;
     height: 21px;
-    background-position: 0 -50px;
+    background-position: 0 -50px!important;
     text-indent: 0;
    // _background: none;
   }
   .icn-ask:hover{
-      background-position: -24px -50px;
+      background-position: -24px -50px!important;
       _background: none;
   }
+  .pas{
+    background-position: 0 -165px!important;
+  }
+  .pas:hover{
+    background-position: -40px -165px!important;
+  }
+
 }
 
 /*
 player stage background
  */
 .bg{
-  width:100%;
-  height:53px;
+  height: 53px;
+  zoom: 1;
   margin-right: 67px;
-  position: absolute;
-  bottom: 0;
-  background-position: 0 0;
-  background-repeat: repeat-x;
+  background-position: 0 0!important;
+  background-repeat: repeat-x!important;
+
 }
 
 /*
@@ -190,11 +216,10 @@ handle
  */
 
 .handle{
+  position: absolute;
+  top: -10px;
   width: 100%;
   height: 20px;
-  position: absolute;
-  bottom: 43px;
-  background-color: black;
   cursor: pointer;
 }
 
@@ -205,10 +230,12 @@ controlbar
 .control{
   position: absolute;
   left: 50%;
+  top:6px;
   width: 980px;
   height:47px;
   margin-left: -490px;
   bottom: 5px;
+  z-index:10;
   .btns{
     width:137px;
     padding: 6px 0 0 0;
@@ -221,25 +248,25 @@ controlbar
       text-indent: -1000px;
     }
     .prev{
-      background-position: 0 -130px;
+      background-position: 0 -130px!important;
     }
     .prev:hover{
-      background-position:-30px -130px;
+      background-position:-30px -130px!important;
     }
     .play{
-      background-position: 0 -204px;
+      background-position: 0 -204px!important;
       width:36px;
       height:36px;
       margin-top: 0;
     }
     .play:hover{
-      background-position: -40px -204px;
+      background-position: -40px -204px!important;
     }
     .next{
-      background-position: -80px -130px;
+      background-position: -80px -130px!important;
     }
     .next:hover{
-      background-position: -110px -130px;
+      background-position: -110px -130px!important;
     }
 
   }
@@ -258,7 +285,7 @@ controlbar
       top:0;
       width:34px;
       height:35px;
-      background-position: 0 -80px;
+      background-position: 0 -80px!important;
     }
   }
   .playbar{
@@ -277,9 +304,9 @@ controlbar
       .time-bar{
         width:493px;
         height:9px;
-        background-position: right 0;
+        background-position: right 0!important;
         .rdy{
-          background-position: right -30px;
+          background-position: right -30px!important;
           height: 9px;
         }
         .cur{
@@ -287,7 +314,7 @@ controlbar
           left: 0;
           top:0;
           width:1%;
-          background-position:left -66px;
+          background-position:left -66px!important;
           .btn{
             position: absolute;
             top:-7px;
@@ -295,11 +322,11 @@ controlbar
             width:22px;
             height:24px;
             margin-left: -11px;
-            background-position: 0 -250px;
+            background-position: 0 -250px!important;
             //_background-position:0 0;
           }
           .btn:hover{
-            background-position: 0 -280px;
+            background-position: 0 -280px!important;
             //_background-position: 0 0;
           }
         }
@@ -320,12 +347,13 @@ controlbar
   }
   .oper{
     width:60px;
+
   }
   .ctrl{
     position: relative;
     width:113px;
     padding-left: 13px;
-    background-position: -147px;
+    background-position: -147px!important;
     float: left;
     .vol-cont{
       position:absolute;
@@ -334,11 +362,12 @@ controlbar
       clear: both;
       width:32px;
       height:113px;
+      display: none;
       .v-container{
         position:absolute;
         top:0;
         left: 0;
-        background-position: 0 -503px;
+        background-position: 0 -503px!important;
         width:32px;
         height:113px;
       }
@@ -353,7 +382,7 @@ controlbar
           position:absolute;
           bottom: 4px;
           left: 0;
-          background-position: -40px bottom;
+          background-position: -40px bottom!important;
           overflow: hidden;
           top:auto;
           width:4px;
@@ -364,7 +393,7 @@ controlbar
           display: block;
           width: 18px;
           height:20px;
-          background-position: -40px -250px;
+          background-position: -40px -250px!important;
           cursor: pointer;
         }
       }
@@ -383,10 +412,11 @@ controlbar
       clear: both;
       width: 152px;
       height:49px;
-      background-position: 0 -287px;
+      background-position: 0 -287px!important;
       text-align: center;
       color: #fff;
       line-height: 37px;
+      display: none;
     }
     .tip-1{
       top: -35px;
@@ -394,7 +424,7 @@ controlbar
       width: 81px;
       height: 39px;
       line-height: 34px;
-      background-position: 0 -457px;
+      background-position: 0 -457px!important;
     }
 
   }
@@ -412,14 +442,30 @@ player list and lrc etc.
   margin-left: -493px;
   bottom: 47px;
   background-color: #006699;
+  display: none;
   .list-top{
-    background-position: 0 0;
+    background-position: 0 0!important;
     height: 41px;
     padding: 0 5px;
   }
   .list-top-detail{
     position: relative;
     height: 40px;
+    a{
+      text-decoration: none;
+      color: #ccc;
+    }
+    a:hover{
+      color:#e2e2e2;
+    }
+    .icn{
+      margin: 1px 6px 0 0;
+      height: 16px;
+    }
+    .close{
+      margin: 1px 6px 0 0;
+      height: 16px;
+    }
     h4{
       position: absolute;
       left: 25px;
@@ -431,11 +477,16 @@ player list and lrc etc.
     }
     .addall{
       left: 398px;
-      .icn-add{
+      .icn-add1{
         width:16px;
         height: 16px;
         float: left;
         margin: 1px 6px 0 0;
+      }
+    }
+    .addall:hover{
+      .icn-add1{
+        background-position: -24px -20px!important;
       }
     }
     .line{
@@ -479,10 +530,10 @@ player list and lrc etc.
       overflow: hidden;
       text-indent: -999px;
       cursor: pointer;
-      background-position: -195px 9px;
+      background-position: -195px 9px!important;
     }
     .close:hover{
-      background-position: -195px 21px;
+      background-position: -195px -21px!important;
     }
   }
   .list-bd{
@@ -493,9 +544,9 @@ player list and lrc etc.
     //_width: 972px;
     height: 260px;
     overflow: hidden;
-    background-position: -1014px 0;
+    background-position: -1014px 0!important;
     //_background-position: -1018px 0;
-    background-repeat: repeat-y;
+    background-repeat: repeat-y!important;
     padding: 0 5px;
     .msk{
       position: absolute;
@@ -542,11 +593,14 @@ player list and lrc etc.
           width: 36px;
           height: 29px;
           margin-right: 3px;
-          background-position: -138px 0;
+          background-position: -138px 0!important;
           vertical-align: middle;
         }
         .icn,a{
           color: #aaaaaa;
+        }
+        a{
+          color: #aaa;
         }
       }
       .songul{
@@ -591,7 +645,7 @@ player list and lrc etc.
             margin-top: 8px;
             width: 10px;
             height: 13px;
-            background-position: -182px 0;
+            background-position: -182px 0!important;
           }
         }
         .col-2{
@@ -719,6 +773,19 @@ player list and lrc etc.
       height: 219px;
       width: 354px;
       overflow: hidden;
+      .nocnt{
+        padding-top: 85px;
+        text-align: center;
+        line-height: 43px;
+        color: #aaa;
+        .s-fc4{
+          color: #999;
+        }
+        a{
+          color: #c2c2c2;
+          margin-left: 12px;
+        }
+      }
       p{
         color: #989898;
         word-wrap: break-word;
@@ -747,26 +814,40 @@ player list and lrc etc.
 updown
  */
 .updn{
-  position: inherit;
-  right:0;
-  bottom: 0;
-  background-color: yellow;
+  position: relative;
+  z-index: 11;
   .lock-bg{
-    position: inherit;
+    position: absolute;
+    top: -14px;
     right: 15px;
-    top:-14px;
-    width:52px;
-    height:67px;
-    background-position: 0 -380px;
+    width: 52px;
+    height: 67px;
+    background-position: 0 -380px!important;
     .btn{
+      background-position: -100px -380px!important;
       display: block;
       width: 18px;
       height:18px;
       margin: 6px 0 0 17px;
     }
     .btn:hover{
-      text-decoration: underline;
+      background-position: -100px -400px!important;
     }
+    .btn-unlock{
+      background-position: -80px -380px!important;
+    }
+    .btn-unlock{
+      background-position: -80px -400px!important;
+    }
+  }
+  .lock-bg2{
+    position: absolute;
+    top: -1px;
+    right: 0;
+    width: 15px;
+    height: 54px;
+    background-position: -52px -393px!important;
+    pointer-events: none;
   }
 }
 
