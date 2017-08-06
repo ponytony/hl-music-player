@@ -7,13 +7,15 @@ import LockBar from  './lockbar';
 import Control from './control'
 import List from './list';
 import {findDOMNode} from 'react-dom';
+import {connect} from 'react-redux';
 
 
 class AppComponent extends React.Component {
-  constructor(state){
-    super();
-    this.state=state
+ /* constructor(props){
+    super(props);
+    this.props=props
   }
+  */
 
 
   handleMouseOver(e){
@@ -40,10 +42,11 @@ class AppComponent extends React.Component {
 
     return (
       <div className="player-base">
-        <div className="stage" ref="stage" onMouseLeave={this.handleMouseLeave.bind(this)}>
+        <div className="stage" ref="stage" onMouseLeave={this.props.locked?null:this.handleMouseLeave.bind(this)}
+             onMouseOver={this.handleMouseOver.bind(this)}>
           <LockBar/>
-          <div className="handle" onMouseOver={this.handleMouseOver.bind(this)} ></div>
-          <div className="bg" style={styleObj1} onMouseOver={this.handleMouseOver.bind(this)} ></div>
+          <div className="handle"  ></div>
+          <div className="bg" style={styleObj1}  ></div>
           <Control/>
           <List/>
       </div>
@@ -57,5 +60,12 @@ class AppComponent extends React.Component {
 
 AppComponent.defaultProps = {
 };
+
+const mapStateToProps =(state)=>{
+  return {locked:state.locked}
+}
+
+AppComponent=connect(mapStateToProps)(AppComponent)
+
 
 export default AppComponent;

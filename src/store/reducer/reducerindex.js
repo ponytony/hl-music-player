@@ -7,10 +7,10 @@
  */
 
 import {combineReducers} from 'redux';
-import {lockReducer} from 'lockreducer';
+import {lockReducer} from './lockreducer';
 
-const playerReducer=combineReducers({
+export const playerReducer=combineReducers({
   lockReducer
-})
+});
 
-export default playerReducer;
+

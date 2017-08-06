@@ -32,12 +32,11 @@ module.exports = {
     alias: {
       image: `${defaultSettings.srcPath}/image/`,
       components: `${defaultSettings.srcPath}/components/`,
-      redux: `${defaultSettings.srcPath}/redux/`,
+      store: `${defaultSettings.srcPath}/store/`,
       styles: `${defaultSettings.srcPath}/styles/`,
       lrc: `${defaultSettings.srcPath}/lrc/`,
-      action: `${defaultSettings.srcPath}/redux/action/`,
-      reducer: `${defaultSettings.srcPath}/redux/reducer/`,
-      store: `${defaultSettings.srcPath}/redux/store/`,
+      action: `${defaultSettings.srcPath}/store/action/`,
+      reducer: `${defaultSettings.srcPath}/store/reducer/`,
       utils: `${defaultSettings.srcPath}/utils/`,
       config: `${defaultSettings.srcPath}/config/` + process.env.REACT_WEBPACK_ENV,
       'react/lib/ReactMount': 'react-dom/lib/ReactMount'

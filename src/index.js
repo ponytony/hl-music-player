@@ -5,15 +5,19 @@ import App from './components/Main';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
-import playerReducer from './redux/reducer/reducerindex';
+import initState from './store/initstate'
+import {lockReducer} from './store/reducer/lockreducer';
 
 // Render the main component into the dom
 
-const store = createStore(playerReducer);
+const store = createStore(lockReducer,initState);
+console.log(store.getState());
 
 ReactDOM.render(
   <Provider store={store}>
-  <App />, document.getElementById('app')
+  <App />
   </Provider>
+    ,document.getElementById('app')
+
 );
 

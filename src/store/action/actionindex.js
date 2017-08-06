@@ -8,7 +8,6 @@
 
 export const lockPlayer=()=>{
   return{
-    type:'CHANGE_LOCK',
-    valid:true
+    type:'CHANGE_LOCK'
   }
 }

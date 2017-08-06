@@ -7,24 +7,54 @@
  */
 import React from 'react';
 import icons from '../utils/parseIcon';
+import {connect} from 'react-redux';
+import {lockPlayer} from '../store/action/actionindex';
 
 class LockBar extends React.Component {
 
 
   render() {
+    const {handleClick}=this.props;
+
     let styleObj1={};
     styleObj1.background='url('+icons.playbar+')';
 
     return (
       <div className="updn">
       <div className='lock-bg' style={styleObj1}>
-        <a className="btn" href="javascripts:;" style={styleObj1}></a>
+        <a className="btn" style={styleObj1} onClick={console.log(handleClick)}></a>
       </div>
-        <div className="lock-bg2" style={styleObj1}></div>
+        <div className="lock-bg2" style={styleObj1} ></div>
       </div>
     )
   }
 }
+
+const mapDispatchToProps=(dispatch)=> {
+  return {
+    handleClick: (e) => {
+      dispatch(lockPlayer())
+
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+}
+
+  connect(null,
+    mapDispatchToProps
+  )(LockBar);
+
+
+/*function mapDispatchToProps(dispatch) {
+  return {
+    handleClick: () => dispatch(lockPlayer())
+  };
+}
+connect(
+  mapDispatchToProps
+)(LockBar);
+*/
 
 export default LockBar;
 
