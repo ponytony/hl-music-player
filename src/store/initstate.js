@@ -16,5 +16,5 @@ const initState={
 }
 export default initState
 
-//play:[id,index,songname,artists,album,mp3Url,img,playing(bool),ptime,]
+//play:[id,playindex,songname,artists,album,mp3Url,img,playing(bool),ptime,lrcurl]
 

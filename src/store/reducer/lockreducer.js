@@ -20,6 +20,21 @@ export const lockReducer=(state,action)=>{
     case 'SHOW_VOLBAR':
       return Object.assign({},state,{showvol:!state.showvol});
 
+    case 'CHANGE_MODE':
+      let newmode;
+      if(state.mode==='circle'){
+        newmode='shuffle'
+      }else if(state.mode==='shuffle'){
+        newmode='one'
+      }else if(state.mode==='one'){
+        newmode='circle'
+      }
+      return Object.assign({},state,{mode:newmode});
+    /*
+    case 'PLAY_PAUSE':
+      return Object.assign({},state,{showvol:!state.showvol});
+*/
+
     default:
       return state
   }

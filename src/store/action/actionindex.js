@@ -22,4 +22,15 @@ export const showVolBar=()=>{
     type:'SHOW_VOLBAR'
   }
 };
+export const changeMode=()=>{
+  return {
+    type:'CHANGE_MODE'
+  }
+};
+
+export const playPause=()=>{
+  return {
+    type:'PLAY_PAUSE'
+  }
+}
 

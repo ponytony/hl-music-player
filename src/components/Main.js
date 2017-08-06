@@ -18,6 +18,9 @@ class AppComponent extends React.Component {
   */
 
 
+  componentDidMount(){
+
+  }
   handleMouseOver(e){
     const stage=findDOMNode(this.refs.stage);
     stage.style.top='-53px';
@@ -45,11 +48,10 @@ class AppComponent extends React.Component {
         <div className="stage" ref="stage" onMouseLeave={(this.props.showlist||this.props.locked)?null:this.handleMouseLeave.bind(this)}
              onMouseOver={this.handleMouseOver.bind(this)}>
           <LockBar/>
-          <div className="handle"  ></div>
+          <div className="handle" ref="handle" ></div>
           <div className="bg" style={styleObj1}></div>
           <Control/>
-          <List/>
-          <audio></audio>
+          <List ref="list"/>
       </div>
 
       </div>

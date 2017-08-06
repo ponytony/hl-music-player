@@ -9,7 +9,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import icons from '../utils/parseIcon';
-import {showList,showVolBar} from 'action/actionindex';
+import {showList,showVolBar,changeMode} from 'action/actionindex';
 
 class Control extends React.Component{
   render(){
@@ -20,7 +20,19 @@ class Control extends React.Component{
     let styleObj5={};
     styleObj5.background='url('+icons.iconall+')';
 
-    const {handleShowList,handleShowVolBar}=this.props;
+    const {handleShowList,handleShowVolBar,handleChangeMode,mode}=this.props;
+
+    let newmode,newtitle;
+    if(mode==='circle'){
+      newmode='mode icn-loop';
+      newtitle='循环'
+    }else if(mode==='shuffle'){
+      newmode='mode icn-shuffle';
+      newtitle='随机'
+    }else{
+      newmode='mode icn-one';
+      newtitle='单曲循环'
+    }
 
     return (
       <div className="control">
@@ -54,7 +66,7 @@ class Control extends React.Component{
           <a href="javascripts:;" className="icn icn-share" title="分享" style={styleObj1}>分享</a>
         </div>
         <div className="ctrl">
-          <div className={this.props.showvol?"vol-cont":'vol-cont nodisplay'}>
+          <div className={this.props.showvol?'vol-cont':'vol-cont nodisplay'}>
             <div className="v-container" style={styleObj1}></div>
             <div className="v-bar">
               <div className="v-all" style={styleObj1}></div>
@@ -63,6 +75,9 @@ class Control extends React.Component{
           </div>
           <a href="javascripts:;" className="icn icn-vol" title="音量"
              style={styleObj1} onClick={(e)=>{handleShowVolBar(e)}}></a>
+          <a title={newtitle} className={newmode} style={styleObj1}
+             onClick={(e,mode)=>handleChangeMode(e,mode)}></a>
+
           <span className="add">
             <span className="tip" style={styleObj1}>已经添加到播放列表</span>
             <a href="javascripts:;" title="播放列表" className="icn icn-list"
@@ -83,7 +98,8 @@ const mapStateToProps=(state)=>{
 */
 const mapStateToProps=(state)=>{
   return{
-    showvol:state.showvol
+    showvol:state.showvol,
+    mode:state.mode
   }
 }
 
@@ -100,6 +116,10 @@ const mapDispatchToProps=(dispatch)=>{
 
       e.preventDefault();
       e.stopPropagation()
+    },
+    handleChangeMode:(e,mode)=>{
+      dispatch(changeMode(mode));
+
     }
 
   }
