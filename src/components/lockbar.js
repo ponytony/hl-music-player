@@ -11,23 +11,25 @@ import {connect} from 'react-redux';
 import {lockPlayer} from '../store/action/actionindex';
 
 class LockBar extends React.Component {
-
-
   render() {
     const {handleClick}=this.props;
 
     let styleObj1={};
     styleObj1.background='url('+icons.playbar+')';
-
     return (
-      <div className="updn">
-      <div className='lock-bg' style={styleObj1}>
-        <a className="btn" style={styleObj1} onClick={console.log(handleClick)}></a>
-      </div>
+      <div className="updn" >
+        <div className='lock-bg' style={styleObj1}>
+          <a className={this.props.locked?'btn':'btn-unlock'} style={styleObj1} onClick={e=>handleClick(e)}></a>
+        </div>
         <div className="lock-bg2" style={styleObj1} ></div>
       </div>
     )
   }
+}
+
+
+const mapStateToProps=(state)=>{
+  return {locked:state.locked}
 }
 
 const mapDispatchToProps=(dispatch)=> {
@@ -36,14 +38,14 @@ const mapDispatchToProps=(dispatch)=> {
       dispatch(lockPlayer())
 
       e.preventDefault();
-      e.stopPropagation();
+      e.stopPropagation()
     }
   }
-}
+};
 
-  connect(null,
-    mapDispatchToProps
-  )(LockBar);
+
+export default connect(mapStateToProps,mapDispatchToProps)(LockBar);//important
+
 
 
 /*function mapDispatchToProps(dispatch) {
@@ -56,7 +58,7 @@ connect(
 )(LockBar);
 */
 
-export default LockBar;
+
 
 
 

@@ -8,17 +8,16 @@
 
 
 import React from 'react';
+import {connect} from 'react-redux';
+
 import icons from '../utils/parseIcon';
-let styleObj1={};
-styleObj1.background='url('+icons.playbar+')';
+import {showList} from 'action/actionindex'
+
 let styleObj2={};
 styleObj2.background='url('+icons.playlist+')';
 let styleObj3={};
 styleObj3.background='url('+icons.playlist_bg+')';
-let styleObj4={};
-styleObj4.background='url('+icons.statbar+')';
-let styleObj5={};
-styleObj5.background='url('+icons.iconall+')';
+
 
 class NoSong extends React.Component{
   render(){
@@ -117,9 +116,9 @@ class Ask extends  React.Component{
 
 class List extends React.Component{
   render(){
-
+    const {handleShowList} =this.props
     return (
-      <div className="list">
+      <div className={this.props.showlist?'list':'list nodisplay'}>
         <div className="list-top" style={styleObj3}>
           <div className="list-top-detail">
             <h4>播放列表(<span></span>)</h4>
@@ -132,7 +131,7 @@ class List extends React.Component{
               清除
             </a>
             <p className="song-title"></p>
-            <span className="close" style={styleObj2}>关闭</span>
+            <span className="close" style={styleObj2} onClick={(e)=>handleShowList(e)}>关闭</span>
           </div>
         </div>
         <div className="list-bd" style={styleObj3}>
@@ -161,5 +160,20 @@ class List extends React.Component{
     );
   }
 }
+const mapStateToProps=(state)=>{
+  return {showlist:state.showlist}
+}
 
-export default List;
+const mapDispatchToProps=(dispatch)=>{
+  return{
+    handleShowList:(e)=>{
+      dispatch(showList());
+
+      e.preventDefault();
+      e.stopPropagation()
+    }
+  }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(List)

@@ -10,4 +10,16 @@ export const lockPlayer=()=>{
   return{
     type:'CHANGE_LOCK'
   }
-}
+};
+
+export const showList=()=>{
+  return {
+    type:'SHOW_LIST'
+  }
+};
+export const showVolBar=()=>{
+  return {
+    type:'SHOW_VOLBAR'
+  }
+};
+

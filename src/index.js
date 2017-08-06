@@ -11,7 +11,6 @@ import {lockReducer} from './store/reducer/lockreducer';
 // Render the main component into the dom
 
 const store = createStore(lockReducer,initState);
-console.log(store.getState());
 
 ReactDOM.render(
   <Provider store={store}>

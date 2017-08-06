@@ -45,6 +45,10 @@ img{
   border: 0;
 }
 
+.nodisplay{
+  display: none;
+}
+
 
 /*
 stage
@@ -362,7 +366,6 @@ controlbar
       clear: both;
       width:32px;
       height:113px;
-      display: none;
       .v-container{
         position:absolute;
         top:0;
@@ -441,8 +444,6 @@ player list and lrc etc.
   height:301px;
   margin-left: -493px;
   bottom: 47px;
-  background-color: #006699;
-  display: none;
   .list-top{
     background-position: 0 0!important;
     height: 41px;
@@ -835,8 +836,12 @@ updown
     }
     .btn-unlock{
       background-position: -80px -380px!important;
+      display: block;
+      width: 18px;
+      height:18px;
+      margin: 6px 0 0 17px;
     }
-    .btn-unlock{
+    .btn-unlock:hover{
       background-position: -80px -400px!important;
     }
   }

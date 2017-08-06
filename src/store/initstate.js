@@ -15,3 +15,6 @@ const initState={
   mode:'circle'  //音量
 }
 export default initState
+
+//play:[id,index,songname,artists,album,mp3Url,img,playing(bool),ptime,]
+

@@ -13,6 +13,13 @@ export const lockReducer=(state,action)=>{
     case 'CHANGE_LOCK':
       //return {locked:true}
      return Object.assign({},state,{locked:!state.locked});
+
+    case 'SHOW_LIST':
+      return Object.assign({},state,{showlist:!state.showlist});
+
+    case 'SHOW_VOLBAR':
+      return Object.assign({},state,{showvol:!state.showvol});
+
     default:
       return state
   }

@@ -42,13 +42,14 @@ class AppComponent extends React.Component {
 
     return (
       <div className="player-base">
-        <div className="stage" ref="stage" onMouseLeave={this.props.locked?null:this.handleMouseLeave.bind(this)}
+        <div className="stage" ref="stage" onMouseLeave={(this.props.showlist||this.props.locked)?null:this.handleMouseLeave.bind(this)}
              onMouseOver={this.handleMouseOver.bind(this)}>
           <LockBar/>
           <div className="handle"  ></div>
-          <div className="bg" style={styleObj1}  ></div>
+          <div className="bg" style={styleObj1}></div>
           <Control/>
           <List/>
+          <audio></audio>
       </div>
 
       </div>
@@ -62,7 +63,8 @@ AppComponent.defaultProps = {
 };
 
 const mapStateToProps =(state)=>{
-  return {locked:state.locked}
+  return {locked:state.locked,
+  showlist:state.showlist}
 }
 
 AppComponent=connect(mapStateToProps)(AppComponent)
