@@ -10,8 +10,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
+
 import icons from '../utils/parseIcon';
-import {showList} from 'action/actionindex'
+import {showList,playIndex} from 'action/actionindex'
 
 let styleObj2={};
 styleObj2.background='url('+icons.playlist+')';
@@ -19,10 +20,11 @@ let styleObj3={};
 styleObj3.background='url('+icons.playlist_bg+')';
 
 
+
 class NoSong extends React.Component{
   render(){
     return (
-      <div className="nocnt">
+      <div className="nocnt" ref="nocnt">
         <i className="icn" style={styleObj2}></i>
           你还没有添加任何歌曲
         <br/>
@@ -35,28 +37,61 @@ class NoSong extends React.Component{
     )
   }
 }
+/*
+const mapStateToNoSong=(state)=>{
+  return{
+    collect:state.collect
+  }
+}
+connect(mapStateToNoSong)(NoSong)
+*/
 
 class SongList extends React.Component{
+  
+
   render(){
+
+    return(
     <li>
-      <div className="col col1"></div>
-      <div className="col col2"></div>
+      <div className="col col1">
+
+      </div>
+      <div className="col col2">
+        {this.props.collect.songname}
+      </div>
       <div className="col col3">
         <div className="icns">
           <i className="icn icn-del" title="删除" style={styleObj2}>删除</i>
           <i className="icn icn-dl" title="下载" style={styleObj2}>下载</i>
-          <i className="icn icn-share" title="分享" style={styleObj2}>分享</i>
-          <i className="j-t icn icn-add" title="收藏" style={styleObj2}>收藏</i>
+          <i className="icn icn-share1" title="分享" style={styleObj2}>分享</i>
+          <i className="j-t icn icn-add2" title="收藏" style={styleObj2}>收藏</i>
         </div>
       </div>
-      <div className="col col4"><span><a href="aaa" ></a></span></div>
+      <div className="col col4"><span>
+        <a href="http://music.163.com/#/artist?id=93183" >{this.props.collect.artists}</a></span>
+      </div>
       <div className="col col5"></div>
       <div className="col col6">
-        <a href="{gedan}" class="icn icn-src" title="来自歌单" style={styleObj2}>来源</a>
+        <a href="{gedan}" className="icn icn-src" title="来自歌单" style={styleObj2}>来源</a>
       </div>
-    </li>
+    </li>)
   }
 }
+
+const mapStateToSongList=(state)=>{
+  return{
+    play:state.play
+  }
+};
+
+
+connect(mapStateToSongList)(SongList)
+
+
+
+
+
+
 
 class ScrollBar1 extends React.Component{
   render(){
@@ -116,8 +151,13 @@ class Ask extends  React.Component{
 
 class List extends React.Component{
   render(){
-    const {handleShowList} =this.props
-    return (
+    const {handleShowList,addIndex} =this.props;
+    let songList=[];
+    this.props.collect.forEach((value,index)=>
+    {songList.push(<SongList key={value.id}
+                             collect={value} playindex={index} deal={addIndex(index)}  />)})
+
+    return(
       <div className={this.props.showlist?'list':'list nodisplay'}>
         <div className="list-top" style={styleObj3}>
           <div className="list-top-detail">
@@ -132,13 +172,14 @@ class List extends React.Component{
             </a>
             <p className="song-title"></p>
             <span className="close" style={styleObj2} onClick={(e)=>handleShowList(e)}>关闭</span>
+            <span className="close" style={styleObj2} onClick={(e)=>handleShowList(e)}>关闭</span>
           </div>
         </div>
         <div className="list-bd" style={styleObj3}>
           <img className="songbg"></img>
           <div className="msk"></div>
           <div className="song-list">
-            <NoSong/>
+            <ul className="songul">{songList}</ul>
           </div>
           <div className="scrollbar1">
             <ScrollBar1/>
@@ -149,7 +190,7 @@ class List extends React.Component{
           </div>
           <div className="msk2"></div>
           <div className="song-lrc">
-            <FindLrc/>
+            {!this.props.play||this.props.play.lrcurl?<LrcList/>:<FindLrc/>}
           </div>
           <Ask/>
           <div className="scrollbar2">
@@ -161,7 +202,9 @@ class List extends React.Component{
   }
 }
 const mapStateToProps=(state)=>{
-  return {showlist:state.showlist}
+  return {showlist:state.showlist,
+    collect:state.collect,
+    play:state.play}
 }
 
 const mapDispatchToProps=(dispatch)=>{
@@ -171,6 +214,9 @@ const mapDispatchToProps=(dispatch)=>{
 
       e.preventDefault();
       e.stopPropagation()
+    },
+    addIndex:()=>{
+      dispatch(playIndex)
     }
   }
 }

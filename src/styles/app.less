@@ -102,11 +102,29 @@ stage
     background-position: -24px 0!important;
   }
   .icn-share{
+
     background-position: -114px -163px!important;
   }
 
   .icn-share:hover{
     background-position: -114px -189px!important;
+  }
+
+  .icn-share1{
+    width: 14px;
+    background-position: 0 0!important;
+  }
+  .icn-share1:hover{
+    background-position: 0 -20px!important;
+  }
+
+  .icn-add2{
+    width: 16px;
+    background-position: -24px 0!important;
+  }
+
+  .icn-2:hover{
+    background-position: -24px -20px!important;
   }
   .icn-vol{
     background-position: -2px -248px!important;
@@ -165,6 +183,10 @@ stage
   .icn-del{
     width: 13px;
     background-position: -51px 0!important;
+  }
+
+  .icn-del:hover{
+    background-position: -51px -20px!important;
   }
   a:hover .icn-del{
     background-position: -51px -20px!important;
@@ -626,6 +648,12 @@ player list and lrc etc.
         li:hover div,li:hover a{
           color:#fff;
         }
+        li .div,li a{
+          color: #9b9b9b;
+        }
+        li a{
+          text-decoration: none;
+        }
         .playing{
           background-color: rgba(0,0,0,0.3);
           //_background-color: #202020;
@@ -640,6 +668,7 @@ player list and lrc etc.
           //_line-height: 29px;
           overflow: hidden;
           cursor: pointer;
+          vertical-align: middle;
           .icn{
             float: right;
             overflow: hidden;
@@ -648,7 +677,7 @@ player list and lrc etc.
             height: 16px;
           }
         }
-        .col-1{
+        .col1{
           width: 10px;
           .playicn{
             display: none;
@@ -658,10 +687,10 @@ player list and lrc etc.
             background-position: -182px 0!important;
           }
         }
-        .col-2{
+        .col2{
           width: 256px;
         }
-        .col-3{
+        .col3{
           width: 78px;
           position: relative;
           .icns{
@@ -681,7 +710,7 @@ player list and lrc etc.
 
           }
         }
-        .col-4{
+        .col4{
           width: 70px;
         }
         .col5{

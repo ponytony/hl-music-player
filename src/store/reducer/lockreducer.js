@@ -6,7 +6,7 @@
  *
  */
 
-
+import cloneDeep from 'lodash/cloneDeep'
 
 export const lockReducer=(state,action)=>{
   switch (action.type){
@@ -33,7 +33,14 @@ export const lockReducer=(state,action)=>{
     /*
     case 'PLAY_PAUSE':
       return Object.assign({},state,{showvol:!state.showvol});
-*/
+*/  case 'ADD_PLAY':
+      return Object.assign({},state,{mode:newmode});
+
+    case 'ADD_PLAYINDEX':
+      let _state=cloneDeep(state);
+      _state.collect.playindex=action.value;
+
+      return _state;
 
     default:
       return state

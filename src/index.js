@@ -8,6 +8,8 @@ import { createStore } from 'redux';
 import initState from './store/initstate'
 import {lockReducer} from './store/reducer/lockreducer';
 
+import songurl1 from './utils/parseSong'
+initState.collect=songurl1
 // Render the main component into the dom
 
 const store = createStore(lockReducer,initState);

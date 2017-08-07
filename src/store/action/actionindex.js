@@ -32,5 +32,19 @@ export const playPause=()=>{
   return {
     type:'PLAY_PAUSE'
   }
+};
+
+export const addPlay=(collect)=>{
+  return {
+    type:'ADD_PLAY',
+    play:collect,//pass
+  }
+};
+
+export const playIndex=(index)=>{
+  return {
+    type:'ADD_PLAYINDEX',
+    value:index
+  }
 }
 

@@ -18,9 +18,7 @@ class AppComponent extends React.Component {
   */
 
 
-  componentDidMount(){
 
-  }
   handleMouseOver(e){
     const stage=findDOMNode(this.refs.stage);
     stage.style.top='-53px';
@@ -52,6 +50,7 @@ class AppComponent extends React.Component {
           <div className="bg" style={styleObj1}></div>
           <Control/>
           <List ref="list"/>
+
       </div>
 
       </div>
