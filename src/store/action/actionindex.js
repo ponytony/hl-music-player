@@ -37,14 +37,35 @@ export const playPause=()=>{
 export const addPlay=(collect)=>{
   return {
     type:'ADD_PLAY',
-    play:collect,//pass
+    play:collect
   }
 };
 
-export const playIndex=(index)=>{
+export const playIndex=(index,id)=>{
   return {
     type:'ADD_PLAYINDEX',
-    value:index
+    value:index,
+    id:id
+  }
+};
+
+export const prev=(playindex)=>{
+  return {
+    type:'PREV',
+    index:playindex
+  }
+};
+
+export const next=(playindex)=>{
+  return {
+    type:'NEXT',
+    index:playindex
+  }
+};
+
+export const playButton=()=>{
+  return{
+    type:'PLAY_BUTTON',
   }
 }
 

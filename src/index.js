@@ -3,16 +3,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/Main';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore,applyMiddleware } from 'redux';
 
-import initState from './store/initstate'
+import initState from './store/initstate';
 import {lockReducer} from './store/reducer/lockreducer';
+import songurl1 from './utils/parseSong';
+import logger from 'redux-logger'
 
-import songurl1 from './utils/parseSong'
 initState.collect=songurl1
-// Render the main component into the dom
 
-const store = createStore(lockReducer,initState);
+
+console.log(initState)
+
+
+
+
+const store = createStore(lockReducer,initState,applyMiddleware(logger));
 
 ReactDOM.render(
   <Provider store={store}>

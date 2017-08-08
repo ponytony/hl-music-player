@@ -206,6 +206,18 @@ stage
   .icn-src:hover{
     background-position: -80px -20px!important;
   }
+
+  .icn-src1{
+    float: left;
+    width: 14px;
+    height: 15px;
+    margin: 7px 0 0 13px;
+    background-position: -110px -103px!important;
+  }
+
+  .icn-src1:hover{
+    background-position: -130px -103px!important;
+  }
   .icn-ask{
     display: inline-block;
     width: 21px;
@@ -281,14 +293,25 @@ controlbar
     .prev:hover{
       background-position:-30px -130px!important;
     }
-    .play{
+    .pause{
       background-position: 0 -204px!important;
       width:36px;
       height:36px;
       margin-top: 0;
     }
-    .play:hover{
+    .pause:hover{
       background-position: -40px -204px!important;
+    }
+    .play{
+      width: 36px;
+      height: 36px;
+      margin-top: 0;
+      background-position: 0 -165px!important;
+
+    }
+
+    .play:hover{
+      background-position: -40px -165px!important;
     }
     .next{
       background-position: -80px -130px!important;
@@ -325,6 +348,35 @@ controlbar
       color:#e8e8e8;
       text-shadow: 0 1px 0 #171717;
       line-height: 28px;
+      a{
+        color:#e8e8e8;
+        text-decoration: none;
+      }
+      a:hover{
+        color:#fff;
+      }
+
+      .topspan{
+        max-width: 220px;
+        margin-left: 15px;
+        color: #9b9b9b;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        float: left;
+        text-decoration: none;
+      }
+      .topname{
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        float: left;
+        outline: none;
+        text-decoration: none;
+      }
     }
     .play-bar{
       width:493px;

@@ -12,6 +12,8 @@ const initState={
   volumn:'50%',//循环模式
   collect:[],//收藏夹
   play:{},//正在播放
+  pause:true,
+  playindex:-1,
   mode:'circle'  //音量
 }
 export default initState

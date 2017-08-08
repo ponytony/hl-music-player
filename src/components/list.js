@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 
 
 import icons from '../utils/parseIcon';
-import {showList,playIndex} from 'action/actionindex'
+import {showList,playIndex,addPlay} from 'action/actionindex'
 
 let styleObj2={};
 styleObj2.background='url('+icons.playlist+')';
@@ -47,12 +47,22 @@ connect(mapStateToNoSong)(NoSong)
 */
 
 class SongList extends React.Component{
-  
+
+  componentDidMount(){
+    const {addIndex}=this.props;
+    const playindex=this.props.playindex;
+    const id=this.props.collect.id;
+    (function submit(playindex,id){
+      addIndex(playindex,id)
+    })(playindex,id)
+
+  }
 
   render(){
-
+    const {addPlaying}=this.props;
+    const collect=this.props.collect;
     return(
-    <li>
+    <li onClick={(e)=>{addPlaying(e,collect)}}>
       <div className="col col1">
 
       </div>
@@ -84,8 +94,22 @@ const mapStateToSongList=(state)=>{
   }
 };
 
+const mapDispatchToSongList=(dispatch,ownprops)=>{
+  return {
+    addIndex:(playindex,id)=>{
+      dispatch(playIndex(playindex,id))
+    },
+    addPlaying:(e)=>{
+      dispatch(addPlay(ownprops.collect));
 
-connect(mapStateToSongList)(SongList)
+      e.preventDefault();
+      e.stopPropagation()
+    }
+  }
+};
+
+
+SongList=connect(mapStateToSongList,mapDispatchToSongList)(SongList);
 
 
 
@@ -151,17 +175,17 @@ class Ask extends  React.Component{
 
 class List extends React.Component{
   render(){
-    const {handleShowList,addIndex} =this.props;
+    const {handleShowList} =this.props;
     let songList=[];
     this.props.collect.forEach((value,index)=>
     {songList.push(<SongList key={value.id}
-                             collect={value} playindex={index} deal={addIndex(index)}  />)})
+                             collect={value} playindex={index}/>)});
 
     return(
       <div className={this.props.showlist?'list':'list nodisplay'}>
         <div className="list-top" style={styleObj3}>
           <div className="list-top-detail">
-            <h4>播放列表(<span></span>)</h4>
+            <h4>播放列表(<span>{this.props.collect.length}</span>)</h4>
             <a href="javascript:" className="addall">
               <span className="icn icn-add1" style={styleObj2}></span>
               收藏全部</a>
@@ -214,9 +238,6 @@ const mapDispatchToProps=(dispatch)=>{
 
       e.preventDefault();
       e.stopPropagation()
-    },
-    addIndex:()=>{
-      dispatch(playIndex)
     }
   }
 }
