@@ -6,7 +6,7 @@
  *
  */
 
-export const randonIndex=(now,high)=>{
+export const randomIndex=(now,high)=>{
   let newindex=Math.floor(Math.random()*high+now);
   if(newindex>(high-1)){
     newindex-=(high)

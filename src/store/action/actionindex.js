@@ -40,7 +40,7 @@ export const addPlay=(collect)=>{
     play:collect
   }
 };
-
+/*
 export const playIndex=(index,id)=>{
   return {
     type:'ADD_PLAYINDEX',
@@ -48,24 +48,38 @@ export const playIndex=(index,id)=>{
     id:id
   }
 };
-
-export const prev=(playindex)=>{
+*/
+export const prev=()=>{
   return {
-    type:'PREV',
-    index:playindex
+    type:'PREV'
   }
 };
 
-export const next=(playindex)=>{
+export const next=()=>{
   return {
-    type:'NEXT',
-    index:playindex
+    type:'NEXT'
   }
 };
 
 export const playButton=()=>{
   return{
-    type:'PLAY_BUTTON',
+    type:'PLAY_BUTTON'
+  }
+};
+
+export const setData=(handleheight, handletop, barheight,
+                      visiblerange, totalrange, visibleSTop, visibleBar)=>{
+  return{
+    type:'SET_DATA',
+    data:{
+      handleheight:handleheight,
+      handletop:handletop,
+      barheight:barheight,
+      visiblerange:visiblerange,
+      totalrange:totalrange,
+      visibleSTop:visibleSTop,
+      visibleBar:visibleBar
+    }
   }
 }
 

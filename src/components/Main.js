@@ -52,7 +52,8 @@ class AppComponent extends React.Component {
           <List ref="list"/>
           <audio></audio>
           <audio></audio>
-
+          <audio></audio>
+          <audio></audio>
       </div>
 
       </div>

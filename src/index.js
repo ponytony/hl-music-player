@@ -13,10 +13,6 @@ import logger from 'redux-logger'
 initState.collect=songurl1
 
 
-console.log(initState)
-
-
-
 
 const store = createStore(lockReducer,initState,applyMiddleware(logger));
 

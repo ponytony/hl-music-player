@@ -133,7 +133,7 @@ const mapStateToProps=(state)=>{
   }
 }
 
-const mapDispatchToProps=(dispatch,ownprops)=>{
+const mapDispatchToProps=(dispatch)=>{
   return{
     handleShowList:(e)=>{
       dispatch(showList());
@@ -155,32 +155,32 @@ const mapDispatchToProps=(dispatch,ownprops)=>{
 
     },
     handlePrev:(e)=>{
-      dispatch(prev(ownprops.playindex));
+      dispatch(prev());
 
       e.preventDefault();
       e.stopPropagation()
     },
 
     handleNext:(e)=>{
-      dispatch(next(ownprops.playindex));
+      dispatch(next());
 
       e.preventDefault();
       e.stopPropagation()
     },
     handleKeyprev:(e)=>{
-      if(e.keyCode===37){
-        dispatch(prev(ownprops.playindex));
+      if(e.keyCode==37){
+        dispatch(prev());
       }
     },
 
     handleKeyNext:(e)=>{
-      if(e.keyCode===39){
-        dispatch(next(ownprops.playindex));
+      if(e.keyCode==39){
+        dispatch(next());
       }
     },
 
     handlePlayButton:(e)=>{
-      dispatch(playButton())
+      dispatch(playButton());
 
       e.preventDefault();
       e.stopPropagation()

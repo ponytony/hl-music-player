@@ -14,7 +14,16 @@ const initState={
   play:{},//正在播放
   pause:true,
   playindex:-1,
-  mode:'circle'  //音量
+  mode:'circle' , //音量
+  scrollbar1:{
+    handleheight:0, //滚动条长度
+    handletop:0,//gaodu
+    barheight:0,//bar的总厂
+    visiblerange:0,
+    totalrange:0,
+    visibleSTop:0,
+    visibleBar:0
+  }
 }
 export default initState
 

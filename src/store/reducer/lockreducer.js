@@ -8,15 +8,9 @@
 
 import cloneDeep from 'lodash/cloneDeep';
 import {randomIndex} from 'utils/randonIndex'
-//import {changeCollect} from 'utils/changeCollect'
 
-const changeCollect=(collect,index)=>{
-  collect.forEach((value)=>{
-    if(value.playindex===index){
-      return value
-    }
-  });
-}
+
+
 
 export const lockReducer=(state,action)=>{
   switch (action.type){
@@ -45,7 +39,7 @@ export const lockReducer=(state,action)=>{
       return Object.assign({},state,{showvol:!state.showvol});
 */  case 'ADD_PLAY':
       return Object.assign({},state,{play:action.play});
-
+/*
     case 'ADD_PLAYINDEX':
       let _state=cloneDeep(state.collect);
       _state.forEach((value,index)=>{
@@ -55,10 +49,10 @@ export const lockReducer=(state,action)=>{
       });
 
       return Object.assign({},state,{collect:_state});
-
-    case 'prev':
+  */
+    case 'PREV':
       let newcollect;
-      let playindex=action.index;
+      let playindex=state.playindex;
       if(playindex===-1||state.mode==='one'){
         return Object.assign({},state)
       }
@@ -70,11 +64,12 @@ export const lockReducer=(state,action)=>{
       }else if(state.mode==='shuffle'){
         playindex=randomIndex(playindex,state.collect.length)
       }
-    //  newcollect=changeCollect(state.collect,playindex)
-      return Object.assign({},state,{playindex:playindex});
+      newcollect=state.collect[playindex]
 
-    case 'next':
-      playindex=action.index;
+      return Object.assign({},state,{playindex:playindex,play:newcollect});
+
+    case 'NEXT':
+      playindex=state.playindex;
       if(playindex===-1||state.mode==='one'){
         return Object.assign({},state)
       }
@@ -87,22 +82,23 @@ export const lockReducer=(state,action)=>{
         playindex=randomIndex(playindex,state.collect.length)
 
       }
-    //  newcollect=changeCollect(state.collect,playindex)
+      newcollect=state.collect[playindex]
 
-      return Object.assign({},state,{playindex:playindex});
+      return Object.assign({},state,{playindex:playindex,play:newcollect});
 
     case 'PLAY_BUTTON':
       if(state.playindex===-1){
         playindex=0;
-
-        newcollect=changeCollect(state.collect,playindex);
-        return Object.assign({},state,{playindex:playindex,pause:!state.pause})
+        newcollect=state.collect[playindex]
       }
-      newcollect=changeCollect(state.collect,playindex)
+      else{
+        playindex=state.playindex;
+        newcollect=state.collect[playindex]
+      }
+      return Object.assign({},state,{pause:!state.pause,playindex:playindex,play:newcollect});
 
-      debugger;
-
-      return Object.assign({},state,{pause:!state.pause,play:newcollect});
+    case 'SET_DATA':
+      return Object.assign({},state,{scrollbar1:action.data});
 
 
     default:
