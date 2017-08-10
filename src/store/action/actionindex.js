@@ -68,7 +68,7 @@ export const playButton=()=>{
 };
 
 export const setData=(handleheight, handletop, barheight,
-                      visiblerange, totalrange, visibleSTop, visibleBar)=>{
+                      visiblerange, totalrange, visibleSTop)=>{
   return{
     type:'SET_DATA',
     data:{
@@ -77,9 +77,25 @@ export const setData=(handleheight, handletop, barheight,
       barheight:barheight,
       visiblerange:visiblerange,
       totalrange:totalrange,
-      visibleSTop:visibleSTop,
-      visibleBar:visibleBar
+      visibleSTop:visibleSTop
     }
   }
 }
+
+export const updateSTop=(newdata,handletop)=>{
+  return {
+    type:'UPDATE_STOP',
+    data:newdata,
+    handletop:handletop
+  }
+}
+
+export const setVolumn=(data)=>{
+  return {
+    type:'SET_VOLUMN',
+    data
+  }
+}
+
+
 

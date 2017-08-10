@@ -9,7 +9,7 @@ const initState={
   locked:false,//bu 锁住player
   showlist:false,//不锁住list
   showvol:false,//隐藏音量模板
-  volumn:'50%',//循环模式
+  volumn:30,//循环模式
   collect:[],//收藏夹
   play:{},//正在播放
   pause:true,
@@ -21,8 +21,7 @@ const initState={
     barheight:0,//bar的总厂
     visiblerange:0,
     totalrange:0,
-    visibleSTop:0,
-    visibleBar:0
+    visibleSTop:0,//important control content
   }
 }
 export default initState

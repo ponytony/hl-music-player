@@ -13,15 +13,16 @@ import {connect} from 'react-redux';
 
 
 import icons from '../utils/parseIcon';
-import {showList,playIndex,addPlay,setData} from 'action/actionindex'
-import {isEventOnNode,calculateHandle} from 'utils/scrollBar'
+import {showList,playIndex,addPlay,setData,updateSTop} from 'action/actionindex'
+import {calculateHandleHeight,calculateNewHandlePos,calculateScrollTop} from 'utils/scrollBar'
 
 let styleObj2={};
 styleObj2.background='url('+icons.playlist+')';
 let styleObj3={};
 styleObj3.background='url('+icons.playlist_bg+')';
 
-
+const Block=()=>{
+  return(<div></div>)}
 
 class NoSong extends React.Component{
   render(){
@@ -60,7 +61,7 @@ it is a test,i want to konw how to setstate in mount
     return(
     <li onClick={(e)=>{addPlaying(e,collect)}}>
       <div className="col col1">
-
+        {collect.id===this.props.play.id?<PlayIcn/>:<Block/>}
       </div>
       <div className="col col2">
         {this.props.collect.songname}
@@ -141,7 +142,7 @@ class FindLrc extends React.Component{
 class PlayIcn extends React.Component{
   render(){
     return (
-      <div className="playicn"></div>
+      <div className="playicn" style={styleObj2} title="正在播放"></div>
     )
   }
 }
@@ -174,17 +175,16 @@ class List extends React.Component{
     const barContent=this.getElementNode(this._bar1div);
     const visibleBar=barContent.clientHeight;
      //handle
-    const handleContent=this.getElementNode(this._handle1span);
-    const handleTop=handleContent.offsetTop;
-    const handleHeight=calculateHandle(visibleRange,totalRange);
+    const handleTop=0;
+    const handleHeight=calculateHandleHeight(visibleBar,visibleRange,totalRange);
 
     //自执行函数，render后自行提交到store
     (function submit(handleheight, handletop, barheight,
-              visiblerange, totalrange, visibleSTop, visibleBar){
+              visiblerange, totalrange, visibleSTop){
       mountSetData(handleheight, handletop, barheight,
-        visiblerange, totalrange, visibleSTop, visibleBar)
+        visiblerange, totalrange, visibleSTop)
     })(handleHeight, handleTop, visibleBar,
-      visibleRange, totalRange, visibleSTop, visibleBar)
+      visibleRange, totalRange, visibleSTop)
   }
 
   getElementNode(ref){
@@ -200,15 +200,90 @@ class List extends React.Component{
     event.clientX<range.height+range.top)
   }
 
-  onMouseDown1(e){
-    if(!this.props.scrollbar1.handleheight&&this.isOnNode(e,this._bar1div)&&!this.isOnNode(e,this._handle1span){
 
-    })
+  /*
+  songlist
+   */
+  setScrollTop(value,handletop){//update scrolltop of content
+    const {updateVisibleSTop} =this.props;
+    (function submit(value){
+      updateVisibleSTop(value,handletop)
+    })(value)
   }
 
-  setScrollTop(value,ele){
-    let node=findDOMNode(ele);
-    node.scrollTop=value}
+  onMouseDown1(e){
+    if(this.props.scrollBar1.handleheight===0){
+      return
+    }
+    const clientY=e.clientY-this.getElementNode(this._bar1div).getBoundingClientRect().top;
+    const newhandlepos=calculateNewHandlePos(clientY,this.props.scrollBar1.handleheight,this.props.scrollBar1.barheight)
+    const newscrolltop=calculateScrollTop(this.props.scrollBar1.barheight,newhandlepos,
+      this.props.scrollBar1.handleheight,this.props.scrollBar1.visiblerange,this.props.scrollBar1.totalrange)
+    this.setScrollTop(newscrolltop,newhandlepos)
+    this._songlist.scrollTop=newscrolltop
+  }
+
+  onDrag1(e){
+    e.preventDefault()
+    const {barheight,handleheight,visiblerange,totalrange}=this.props.scrollBar1
+    if(this.props.scrollBar1.handleheight===0){
+      return
+    }
+    const clientY=e.clientY-this.getElementNode(this._handle1span).getBoundingClientRect().top;
+    const newhandlepos=calculateNewHandlePos(clientY,handleheight,barheight)
+    const newscrolltop=calculateScrollTop(barheight,newhandlepos,
+      handleheight,visiblerange,totalrange)
+    this.setScrollTop(newscrolltop,newhandlepos)
+    this._songlist.scrollTop=newscrolltop
+  }
+
+
+  onDragEnd1(e){
+    e.preventDefault()
+    const {barheight,handleheight,visiblerange,totalrange}=this.props.scrollBar1
+    if(this.props.scrollBar1.handleheight===0){
+      return
+    }
+    const clientY=e.clientY-this.getElementNode(this._handle1span).getBoundingClientRect().top;
+    const newhandlepos=calculateNewHandlePos(clientY,handleheight,barheight)
+    const newscrolltop=calculateScrollTop(barheight,newhandlepos,
+      handleheight,visiblerange,totalrange)
+    this.setScrollTop(newscrolltop,newhandlepos)
+    this._songlist.scrollTop=newscrolltop
+  }
+
+  onWhell(e){
+
+    if(this.props.scrollBar1.handleheight===0){
+      return
+    }
+    const {barheight,visiblerange,totalrange,visibleSTop,handleheight}=this.props.scrollBar1
+    const delta = e.deltaY % 3 ? (e.deltaY/2) : (e.deltaY * 5)
+    const maxrange=totalrange-visiblerange;
+    let newhandlepos;
+    let newscrolltop=visibleSTop;
+    if(newscrolltop>maxrange||newscrolltop<0){
+      return
+    } else if(maxrange-newscrolltop<delta){
+      newscrolltop=maxrange
+    }else if(newscrolltop<-delta){
+      newscrolltop=0
+    } else{
+      newscrolltop=newscrolltop+delta
+    }
+
+    if(newscrolltop===0){
+      newhandlepos=0
+    }else{
+      newhandlepos=newscrolltop/maxrange*(barheight-handleheight);
+    }
+
+
+    this.setScrollTop(newscrolltop,newhandlepos)
+    this._songlist.scrollTop=newscrolltop
+    e.preventDefault()
+    e.stopPropagation()
+  }
 
 
 
@@ -217,7 +292,8 @@ class List extends React.Component{
     const {handleShowList} =this.props;
     let songList=[];
     let handle1Sty={};
-    handle1Sty=this.props.scrollBar1.handleheight;
+    handle1Sty.height=this.props.scrollBar1.handleheight;
+    handle1Sty.top=this.props.scrollBar1.handletop;
 
     this.props.collect.forEach((value,index)=>
     {songList.push(<SongList key={value.id} ref={'li'+index}
@@ -244,11 +320,12 @@ class List extends React.Component{
         <div className="list-bd" style={styleObj3}>
           <img className="songbg"></img>
           <div className="msk"></div>
-          <div className="song-list" ref={div=>this._songlist=div}>
+          <div className="song-list" ref={div=>this._songlist=div} onWheel={(e)=>this.onWhell(e)}>
             <ul className="songul">{songList}</ul>
           </div>
-          <div className="scrollbar1" ref={div=>this._bar1div=div}>
-            <span className="scroll"  style={handle1Sty} ref={span=>this._handle1span =span}></span>
+          <div className="scrollbar1" ref={div=>this._bar1div=div} onMouseDown={(e)=>{this.onMouseDown1(e)}}>
+            <span className="scroll"  style={handle1Sty} ref={span=>this._handle1span =span}
+                   draggable="true" onDrag={(e)=>this.onDrag1(e)} onDragEnd={(e)=>this.onDragEnd1(e)}></span>
           </div>
           <div className="error">
             <a href="aaaaaaaa">报错</a>
@@ -283,9 +360,12 @@ const mapDispatchToProps=(dispatch)=>{
       e.stopPropagation()
     },
     mountSetData:(handleheight, handletop, barheight,
-                  visiblerange, totalrange, visibleSTop, visibleBar)=>{
+                  visiblerange, totalrange, visibleSTop)=>{
       dispatch(setData(handleheight, handletop, barheight,
-        visiblerange, totalrange, visibleSTop, visibleBar))
+        visiblerange, totalrange, visibleSTop,))
+    },
+    updateVisibleSTop:(visibleSTop,handletop)=>{
+      dispatch(updateSTop(visibleSTop,handletop))
     }
   }
 }

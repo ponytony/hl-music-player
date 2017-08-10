@@ -100,6 +100,16 @@ export const lockReducer=(state,action)=>{
     case 'SET_DATA':
       return Object.assign({},state,{scrollbar1:action.data});
 
+    case 'UPDATE_STOP':
+      let _state=cloneDeep(state.scrollbar1);
+      _state.visibleSTop=action.data;
+      _state.handletop=action.handletop;
+
+      return Object.assign({},state,{scrollbar1:_state});
+
+    case 'SET_VOLUMN':
+      return Object.assign({},state,{volumn:action.data});
+
 
     default:
       return state

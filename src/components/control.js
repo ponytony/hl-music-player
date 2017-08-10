@@ -7,9 +7,10 @@
  */
 
 import React from 'react';
+import {findDOMNode} from 'react-dom'
 import {connect} from 'react-redux'
 import icons from '../utils/parseIcon';
-import {showList,showVolBar,changeMode,next,prev,playButton} from 'action/actionindex';
+import {showList,showVolBar,changeMode,next,prev,playButton,setVolumn} from 'action/actionindex';
 
 class TopBar extends React.Component{
   render(){
@@ -33,6 +34,62 @@ const mapStateToTopBar=(state)=>{
 TopBar=connect(mapStateToTopBar)(TopBar)
 
 class Control extends React.Component{
+
+  getElementNode(ref){
+    return findDOMNode(ref)
+  }
+
+  isOnNode(event,ref){
+    const Element=this.getElementNode(ref);
+    const range=Element.getBoundingClientRect();
+    return(event.clientX>range.left&&
+    event.clientY>range.top&&
+    event.clientX<range.width+range.left&&
+    event.clientX<range.height+range.top)
+  }
+
+  onMouseDown(e){
+    const {setVol}=this.props
+    const clientY=e.clientY-this.getElementNode(this._vbar).getBoundingClientRect().top;
+
+    setVol(100-clientY)
+
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+  onMouseDownForvol(e){
+
+    document.addEventListener('mousemove', this.onMouseDownStart)
+    document.addEventListener('mouseup', this.onMouseDownEnd)
+    debugger;
+    e.preventDefault()
+    e.stopPropagation()
+    }
+
+
+  onMouseDownStart(e){
+    const clientY=e.clientY-findDOMNode(this._vbar).getBoundingClientRect().top;
+    this.dispatch(setVolumn(100-clientY))
+
+
+
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+  onMouseDownEnd(e) {
+
+
+    document.removeEventListener('mousemove', this.onMouseDownStart)
+    document.removeEventListener('mouseup', this.onMouseDownEnd)
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+
+
+
   render(){
     let styleObj1={};
     styleObj1.background='url('+icons.playbar+')';
@@ -94,14 +151,15 @@ class Control extends React.Component{
         </div>
         <div className="ctrl">
           <div className={this.props.showvol?'vol-cont':'vol-cont nodisplay'}>
-            <div className="v-container" style={styleObj1}></div>
-            <div className="v-bar">
-              <div className="v-all" style={styleObj1}></div>
-              <span className="volumn-cir" style={styleObj5}></span>
+            <div className="v-container" style={styleObj1} onDoubleClick={(e)=>{handleShowVolBar(e)}}></div>
+            <div className="v-bar" ref={div=>this._vbar=div} onMouseDown={(e)=>this.onMouseDown(e)}>
+              <div className="v-all" style={{...styleObj1,'height':this.props.volumn}}></div>
+              <span className="volumn-cir" style={{...styleObj5,'top':90-this.props.volumn}} ref={span=>this._cir=span}
+                    onMouseDown={(e)=>this.onMouseDownForvol(e)}></span>
             </div>
           </div>
           <a href="javascripts:;" className="icn icn-vol" title="音量"
-             style={styleObj1} onClick={(e)=>{handleShowVolBar(e)}}></a>
+             style={styleObj1} onClick ={(e)=>{handleShowVolBar(e)}}></a>
           <a title={newtitle} className={newmode} style={styleObj1}
              onClick={(e,mode)=>handleChangeMode(e,mode)}></a>
 
@@ -129,7 +187,8 @@ const mapStateToProps=(state)=>{
     mode:state.mode,
     play:state.play,
     collect:state.collect,
-    pause:state.pause
+    pause:state.pause,
+    volumn:state.volumn
   }
 }
 
@@ -168,13 +227,13 @@ const mapDispatchToProps=(dispatch)=>{
       e.stopPropagation()
     },
     handleKeyprev:(e)=>{
-      if(e.keyCode==37){
+      if(e.keyCode===37){
         dispatch(prev());
       }
     },
 
     handleKeyNext:(e)=>{
-      if(e.keyCode==39){
+      if(e.keyCode===39){
         dispatch(next());
       }
     },
@@ -184,7 +243,12 @@ const mapDispatchToProps=(dispatch)=>{
 
       e.preventDefault();
       e.stopPropagation()
+    },
+
+    setVol:(data)=>{
+      dispatch(setVolumn(data))
     }
   }
 }
+
 export default connect(mapStateToProps,mapDispatchToProps)(Control)
