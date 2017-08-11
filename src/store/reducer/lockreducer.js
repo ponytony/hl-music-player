@@ -108,6 +108,11 @@ export const lockReducer=(state,action)=>{
       return Object.assign({},state,{scrollbar1:_state});
 
     case 'SET_VOLUMN':
+      if(action.data>=100||action.data<=0){
+        return state
+      }
+
+
       return Object.assign({},state,{volumn:action.data});
 
 

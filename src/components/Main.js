@@ -50,13 +50,9 @@ class AppComponent extends React.Component {
           <div className="bg" style={styleObj1}></div>
           <Control/>
           <List ref="list"/>
-          <audio></audio>
-          <audio></audio>
-          <audio></audio>
-          <audio></audio>
-          <audio></audio>
-          <audio></audio>
 
+          <audio></audio>
+          <audio></audio>
 
 
 

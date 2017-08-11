@@ -35,6 +35,14 @@ TopBar=connect(mapStateToTopBar)(TopBar)
 
 class Control extends React.Component{
 
+  constructor(){
+    super()
+    this.onMouseDownStart=this.onMouseDownStart.bind(this)
+    this.onMouseDownEnd=this.onMouseDownEnd.bind(this)
+  }
+
+
+
   getElementNode(ref){
     return findDOMNode(ref)
   }
@@ -42,10 +50,12 @@ class Control extends React.Component{
   isOnNode(event,ref){
     const Element=this.getElementNode(ref);
     const range=Element.getBoundingClientRect();
-    return(event.clientX>range.left&&
-    event.clientY>range.top&&
-    event.clientX<range.width+range.left&&
-    event.clientX<range.height+range.top)
+
+
+    return(event.clientX>range.left &&
+    event.clientY>range.top &&
+    event.clientX<range.width+range.left &&
+    event.clientY<range.height+range.top)
   }
 
   onMouseDown(e){
@@ -58,38 +68,71 @@ class Control extends React.Component{
     e.stopPropagation()
   }
 
-  onMouseDownForvol(e){
+  onMouseDownForvol(e){//.bind 函数会返回一个新的函数，所以之前removelestener时都会发生错误,因为不是同一个函数了，所以说construct不能省略
 
+    e.preventDefault()
+    if(!this.isOnNode(e,this._cir)){
+      return
+    }
     document.addEventListener('mousemove', this.onMouseDownStart)
     document.addEventListener('mouseup', this.onMouseDownEnd)
-    debugger;
-    e.preventDefault()
-    e.stopPropagation()
+
+
+
     }
 
 
   onMouseDownStart(e){
-    const clientY=e.clientY-findDOMNode(this._vbar).getBoundingClientRect().top;
-    this.dispatch(setVolumn(100-clientY))
 
-
-
+    if(!this.isOnNode(e,this._vcontainer)){
+      document.removeEventListener('mousemove', this.onMouseDownStart)
+      document.removeEventListener('mouseup', this.onMouseDownEnd)
+      return false
+    }
     e.preventDefault()
-    e.stopPropagation()
+    const {setVol}=this.props
+    const clientY=e.clientY-findDOMNode(this._vbar).getBoundingClientRect().top;
+    setVol(99-clientY)
+
+
+
   }
 
   onMouseDownEnd(e) {
-
-
-    document.removeEventListener('mousemove', this.onMouseDownStart)
-    document.removeEventListener('mouseup', this.onMouseDownEnd)
     e.preventDefault()
-    e.stopPropagation()
+    if(this.isOnNode(e,this._vcontainer)){
+      document.removeEventListener('mousemove', this.onMouseDownStart)
+      document.removeEventListener('mouseup', this.onMouseDownEnd)
+    }
+
+
+
+
+
+  }
+
+/*
+  componentDidMount(){
+    document.addEventListener('mousedown', this.onMouseDownForvol.bind(this))
+  }
+  */
+  componentDidMount(){
+    const audio=findDOMNode(this._audio);
+    const currenttime=audio.currentTime;
+    const duration=audio.duration;
+    
+
+
   }
 
 
+  componentWillUnmount(){
+    // this is will work
+    document.removeEventListener('mousedown', this.onMouseDownForvol)
+    document.removeEventListener('mousemove', this.onMouseDownStart)
+    document.removeEventListener('mouseup', this.onMouseDownEnd)
 
-
+  }
   render(){
     let styleObj1={};
     styleObj1.background='url('+icons.playbar+')';
@@ -151,14 +194,15 @@ class Control extends React.Component{
         </div>
         <div className="ctrl">
           <div className={this.props.showvol?'vol-cont':'vol-cont nodisplay'}>
-            <div className="v-container" style={styleObj1} onDoubleClick={(e)=>{handleShowVolBar(e)}}></div>
+            <div className="v-container" style={styleObj1} onDoubleClick={(e)=>{handleShowVolBar(e)}}
+                 ref={div=>this._vcontainer=div}></div>
             <div className="v-bar" ref={div=>this._vbar=div} onMouseDown={(e)=>this.onMouseDown(e)}>
               <div className="v-all" style={{...styleObj1,'height':this.props.volumn}}></div>
               <span className="volumn-cir" style={{...styleObj5,'top':90-this.props.volumn}} ref={span=>this._cir=span}
-                    onMouseDown={(e)=>this.onMouseDownForvol(e)}></span>
+                    onMouseDown={this.onMouseDownForvol.bind(this)} ></span>
             </div>
           </div>
-          <a href="javascripts:;" className="icn icn-vol" title="音量"
+          <a href="javascripts:;" className={this.props.volumn===(0||1||2)?'icn icn-volno':'icn icn-vol'} title="音量"
              style={styleObj1} onClick ={(e)=>{handleShowVolBar(e)}}></a>
           <a title={newtitle} className={newmode} style={styleObj1}
              onClick={(e,mode)=>handleChangeMode(e,mode)}></a>
@@ -169,8 +213,9 @@ class Control extends React.Component{
                style={styleObj1} onClick={e=>handleShowList(e)}>{this.props.collect.length}</a>
           </span>
           <div className="tip tip-1" style={styleObj1}>循环</div>
-
         </div>
+        <audio ref={audio=>this._audio=audio} preload="auto" volumn={this.props.volumn}
+               src={this.props.play.mp3url} pause={this.props.pause} ></audio>
       </div>
     )
 
@@ -188,7 +233,9 @@ const mapStateToProps=(state)=>{
     play:state.play,
     collect:state.collect,
     pause:state.pause,
-    volumn:state.volumn
+    volumn:state.volumn,
+    totaltime:state.totaltime,
+    playtime:state.playtime
   }
 }
 

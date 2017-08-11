@@ -14,6 +14,8 @@ const initState={
   play:{},//正在播放
   pause:true,
   playindex:-1,
+  playtime:0,
+  totaltime:0,
   mode:'circle' , //音量
   scrollbar1:{
     handleheight:0, //滚动条长度

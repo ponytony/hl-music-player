@@ -162,6 +162,13 @@ class Ask extends  React.Component{
 
 class List extends React.Component{
 
+  constructor(){
+    super()
+    this.onDragHandle=this.onDragHandle.bind(this)
+    this.onDragHandleStart=this.onDragHandleStart.bind(this)
+    this.onDragHandleEnd=this.onDragHandleEnd.bind(this)
+  }
+
   componentDidMount(){
     //scrollbar1
     const {mountSetData}=this.props;
@@ -197,7 +204,7 @@ class List extends React.Component{
     return(event.clientX>range.left&&
     event.clientY>range.top&&
     event.clientX<range.width+range.left&&
-    event.clientX<range.height+range.top)
+    event.clientY<range.height+range.top)
   }
 
 
@@ -222,12 +229,23 @@ class List extends React.Component{
     this.setScrollTop(newscrolltop,newhandlepos)
     this._songlist.scrollTop=newscrolltop
   }
+  onDragHandle(e){
+    e.preventDefault()
+    /*if(!this.isOnNode(e,this._handle1span)||this.props.scrollBar1.barheight===0){
+      return
+    }*/
+    if(this.props.scrollBar1.barheight===0){
+      return}
+    document.addEventListener('mousemove',this.onDragHandleStart)
+    document.addEventListener('mouseup',this.onDragHandleEnd)
 
-  onDrag1(e){
+  }
+  onDragHandleStart(e){
     e.preventDefault()
     const {barheight,handleheight,visiblerange,totalrange}=this.props.scrollBar1
-    if(this.props.scrollBar1.handleheight===0){
-      return
+    if(handleheight===0||!this.isOnNode(e,this._list)){
+      document.removeEventListener('mousemove',this.onDragHandleStart)
+      document.removeEventListener('mouseup',this.onDragHandleEnd)
     }
     const clientY=e.clientY-this.getElementNode(this._handle1span).getBoundingClientRect().top;
     const newhandlepos=calculateNewHandlePos(clientY,handleheight,barheight)
@@ -235,9 +253,25 @@ class List extends React.Component{
       handleheight,visiblerange,totalrange)
     this.setScrollTop(newscrolltop,newhandlepos)
     this._songlist.scrollTop=newscrolltop
+    }
+
+
+  onDragHandleEnd(e){
+
+
+    e.preventDefault()
+    if(this.isOnNode(e,this._list)){
+      document.removeEventListener('mousemove',this.onDragHandleStart)
+      document.removeEventListener('mouseup',this.onDragHandleEnd)
+    }
+
+
+
   }
 
 
+
+/*
   onDragEnd1(e){
     e.preventDefault()
     const {barheight,handleheight,visiblerange,totalrange}=this.props.scrollBar1
@@ -251,6 +285,7 @@ class List extends React.Component{
     this.setScrollTop(newscrolltop,newhandlepos)
     this._songlist.scrollTop=newscrolltop
   }
+  */
 
   onWhell(e){
 
@@ -300,7 +335,7 @@ class List extends React.Component{
                              collect={value} playindex={index}/>)});
 
     return(
-      <div className={this.props.showlist?'list':'list nodisplay'}>
+      <div className={this.props.showlist?'list':'list nodisplay'}  ref={div=>this._list=div}>
         <div className="list-top" style={styleObj3}>
           <div className="list-top-detail">
             <h4>播放列表(<span className="topspan">{this.props.collect.length}</span>)</h4>
@@ -325,7 +360,7 @@ class List extends React.Component{
           </div>
           <div className="scrollbar1" ref={div=>this._bar1div=div} onMouseDown={(e)=>{this.onMouseDown1(e)}}>
             <span className="scroll"  style={handle1Sty} ref={span=>this._handle1span =span}
-                   draggable="true" onDrag={(e)=>this.onDrag1(e)} onDragEnd={(e)=>this.onDragEnd1(e)}></span>
+                  onMouseDown={this.onDragHandle}></span>
           </div>
           <div className="error">
             <a href="aaaaaaaa">报错</a>
@@ -339,6 +374,8 @@ class List extends React.Component{
             <span className="scroll scroll-1" ref={span=>this._handle2span=span}></span>
           </div>
         </div>
+        <audio></audio>
+        <audio></audio>
       </div>
     );
   }
