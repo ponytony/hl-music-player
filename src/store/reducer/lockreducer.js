@@ -38,7 +38,7 @@ export const lockReducer=(state,action)=>{
     case 'PLAY_PAUSE':
       return Object.assign({},state,{showvol:!state.showvol});
 */  case 'ADD_PLAY':
-      return Object.assign({},state,{play:action.play});
+      return Object.assign({},state,{play:action.play},{playindex:action.index});
 /*
     case 'ADD_PLAYINDEX':
       let _state=cloneDeep(state.collect);
@@ -114,6 +114,23 @@ export const lockReducer=(state,action)=>{
 
 
       return Object.assign({},state,{volumn:action.data});
+
+    case 'GET_DURATION':
+
+
+      return Object.assign({},state,{duration:action.data});
+
+    case 'GET_CURRENTTIME':
+
+
+      return Object.assign({},state,{currenttime:action.data});
+
+    case 'GET_BUFFERED':
+
+      return Object.assign({},state,{buffered:action.data});
+
+    case 'SET_CURRENTTIME':
+      return Object.assign({},state,{currenttime:action.data});
 
 
     default:

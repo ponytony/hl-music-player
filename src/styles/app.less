@@ -388,6 +388,7 @@ controlbar
         .rdy{
           background-position: right -30px!important;
           height: 9px;
+          width:1%;
         }
         .cur{
           position:absolute;
@@ -395,6 +396,7 @@ controlbar
           top:0;
           width:1%;
           background-position:left -66px!important;
+          height:9px;
           .btn{
             position: absolute;
             top:-7px;
@@ -410,19 +412,17 @@ controlbar
             //_background-position: 0 0;
           }
         }
-        .total-time{
-          position: absolute;
-          top:-3px;
-          right:-84px;
-          color:#797979;
-          text-shadow: 0 1px 0 #121212;
-          .playing-time{
-            color:#a1a1a1;
-          }
-        }
-
       }
-
+    }
+    .total-time{
+      position: absolute;
+      top:-3px;
+      right:-84px;
+      color:#797979;
+      text-shadow: 0 1px 0 #121212;
+      .playing-time{
+        color:#a1a1a1;
+      }
     }
   }
   .oper{
@@ -491,6 +491,19 @@ controlbar
       height: 36px;
       width: 59px;
       zoom:1;
+      a{
+        display: block;
+        float: none;
+        width: 38px;
+        padding-left: 21px;
+        background-position: -42px -68px;
+        line-height: 27px;
+        text-align: center;
+        color: #666;
+        text-shadow: 0 1px 0 #080707;
+        text-indent: 0;
+        text-decoration: none;
+      }
     }
     .tip{
       position: absolute;

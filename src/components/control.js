@@ -10,7 +10,9 @@ import React from 'react';
 import {findDOMNode} from 'react-dom'
 import {connect} from 'react-redux'
 import icons from '../utils/parseIcon';
-import {showList,showVolBar,changeMode,next,prev,playButton,setVolumn} from 'action/actionindex';
+import {secondToTime} from 'utils/parseTime'
+import {showList,showVolBar,changeMode,next,prev,playButton,setVolumn,getDuration,getCurrentTime,
+         getBuffered,setCurrentTime} from 'action/actionindex';
 
 class TopBar extends React.Component{
   render(){
@@ -37,8 +39,10 @@ class Control extends React.Component{
 
   constructor(){
     super()
-    this.onMouseDownStart=this.onMouseDownStart.bind(this)
-    this.onMouseDownEnd=this.onMouseDownEnd.bind(this)
+    this.onMouseDownStart=this.onMouseDownStart.bind(this);
+    this.onMouseDownEnd=this.onMouseDownEnd.bind(this);
+    this.onMouseDownForBarStart=this.onMouseDownForBarStart.bind(this);
+    this.onMouseDownForBarEnd=this.onMouseDownForBarEnd.bind(this);
   }
 
 
@@ -104,11 +108,6 @@ class Control extends React.Component{
       document.removeEventListener('mousemove', this.onMouseDownStart)
       document.removeEventListener('mouseup', this.onMouseDownEnd)
     }
-
-
-
-
-
   }
 
 /*
@@ -117,22 +116,131 @@ class Control extends React.Component{
   }
   */
   componentDidMount(){
-    const audio=findDOMNode(this._audio);
-    const currenttime=audio.currentTime;
-    const duration=audio.duration;
-    
 
 
+    this._audio.pause()//init the audio
+    //this._audio.play()
+   // this._audio.pause();
+    this._audio.volume=this.props.volumn/100
+    this._audio.addEventListener('loadedmetadata',()=>this.handleDuration());
+    this._audio.addEventListener('progress',()=>this.handleBuffered())
+    this._audio.addEventListener('timeupdate',()=>this.handleCurrentTime());
+    this._audio.addEventListener('ended',(e)=>this.handleEnded(e));
+
+
+    //this._audio.muted=(this.props.volumn===(0||1||2)?true:false);
   }
 
 
   componentWillUnmount(){
-    // this is will work
     document.removeEventListener('mousedown', this.onMouseDownForvol)
     document.removeEventListener('mousemove', this.onMouseDownStart)
     document.removeEventListener('mouseup', this.onMouseDownEnd)
 
   }
+
+
+  /*
+  audio 标签的相关事件
+   */
+  componentDidUpdate(){
+
+    if(this._audio.volume/100!==this.props.volumn/100){
+      this._audio.volume=this.props.volumn/100
+    }
+
+    if(!this.props.pause){
+      this._audio.play()
+    }else{
+      this._audio.pause()
+    }
+
+    if(this.props.mode==='one'){
+      this._audio.loop=true
+    }else{
+      this._audio.loop=false
+    }
+  }
+
+  handleEnded(e){
+    const {handleNext}=this.props;
+    handleNext(e)
+  }
+
+  handleDuration(){
+    const{handleDuration}=this.props;
+    const data=Math.floor(this._audio.duration)
+    handleDuration(data)
+  }
+
+  handleCurrentTime(){
+    const {handleCurrentTime}=this.props;
+    let data;
+
+    if(this._audio.currentTime===0){
+      data=1
+    }else{
+      data=Math.floor(this._audio.currentTime);
+    }
+    if(this.props.currenttime===data){return}
+    handleCurrentTime(data)
+  }
+
+  handleBuffered(){
+    const {handleBuffered}=this.props;
+    let data;
+
+    if(this._audio.buffered.end(0)===0){
+      data=1
+    }else{
+      data=Math.floor(this._audio.buffered.end(0));
+    }
+    handleBuffered(data)
+  }
+
+  onMouseDownForBar(e){
+    e.preventDefault()
+    if(!this.isOnNode(e,this._btn)){
+      return
+    }
+    document.addEventListener('mousemove', this.onMouseDownForBarStart)
+    document.addEventListener('mouseup', this.onMouseDownForBarEnd)
+
+  }
+
+  onMouseDownForBarStart(e){
+    const{handleSetCurrentTime}=this.props
+    e.preventDefault()
+    if(!this.isOnNode(e,this._btn)){
+      document.removeEventListener('mousemove', this.onMouseDownForBarStart)
+      document.removeEventListener('mouseup', this.onMouseDownForBarEnd)
+      return false
+    }
+    let clientY
+    clientY=e.clientX-findDOMNode(this._timebar).getBoundingClientRect().left;
+    if(clientY===0){
+      clientY=1
+    }
+    const newCurrentTime=Math.floor(clientY/493*this.props.duration)
+    this._audio.currentTime=newCurrentTime
+    handleSetCurrentTime(newCurrentTime)
+
+  }
+
+  onMouseDownForBarEnd(e){
+    e.preventDefault()
+    document.removeEventListener('mousemove', this.onMouseDownForBarStart)
+    document.removeEventListener('mouseup', this.onMouseDownForBarEnd)
+
+  }
+
+
+
+
+
+
+
+
   render(){
     let styleObj1={};
     styleObj1.background='url('+icons.playbar+')';
@@ -156,11 +264,16 @@ class Control extends React.Component{
       newtitle='单曲循环'
     }
 
+
+
+
+
+
     return (
       <div className="control">
         <div className="btns">
           <a className="prev" title="上一首（←)" style={styleObj1}
-             onClick={(e)=>handlePrev(e)}  onKeyDown={(e)=>handleKeyPrev(e)}>上一首</a>
+             onClick={(e)=>handlePrev(e)}  onKeyDown={(e)=>{handleKeyPrev(e)}}>上一首</a>
           <a className={this.props.pause?'pause':'play'} title="播放/暂停(p)" style={styleObj1}
              onClick={(e)=>handlePlayButton(e)}>播放/暂停</a>
           <a className="next" title="下一首(→)" style={styleObj1}
@@ -172,19 +285,23 @@ class Control extends React.Component{
             </a>
 
         </div>
-        <div className="playbar">
+        <div className="playbar" ref={div=>this._playbar=div}>
           <div className="topbar">
             {!this.props.play?<div></div>:<TopBar/>}
           </div>
           <div className="play-bar">
-            <div className="time-bar" style={styleObj4}>
-              <div className="rdy" style={styleObj4}></div>
-              <div className="cur" style={styleObj4}>
-                <span className="btn" style={styleObj5}><i></i></span>
+            <div className="time-bar" style={styleObj4} ref={div=>this._timebar=div}>
+              <div className="rdy"
+                   style={{...styleObj4,'width':(this.props.buffered)/this.props.duration*493}}></div>
+              <div className="cur"
+                   style={{...styleObj4,'width':(this.props.currenttime)/this.props.duration*493}}>
+                <span className="btn" style={styleObj5} ref={span=>this._btn=span}
+                      onMouseDown={(e)=>this.onMouseDownForBar(e)}><i></i></span>
               </div>
             </div>
             <span className="total-time">
-              <em className="playing-time"></em>
+              <em className="playing-time">{secondToTime(this.props.currenttime)}</em>
+              {secondToTime(this.props.duration)}
             </span>
           </div>
         </div>
@@ -199,10 +316,11 @@ class Control extends React.Component{
             <div className="v-bar" ref={div=>this._vbar=div} onMouseDown={(e)=>this.onMouseDown(e)}>
               <div className="v-all" style={{...styleObj1,'height':this.props.volumn}}></div>
               <span className="volumn-cir" style={{...styleObj5,'top':90-this.props.volumn}} ref={span=>this._cir=span}
-                    onMouseDown={this.onMouseDownForvol.bind(this)} ></span>
+                    onMouseDown={this.onMouseDownForvol.bind(this)} title={this.props.volumn}></span>
             </div>
           </div>
-          <a href="javascripts:;" className={this.props.volumn===(0||1||2)?'icn icn-volno':'icn icn-vol'} title="音量"
+          <a href="javascripts:;" className={this.props.volumn===(0||1||2)?'icn icn-volno':'icn icn-vol'}
+             title="音量"
              style={styleObj1} onClick ={(e)=>{handleShowVolBar(e)}}></a>
           <a title={newtitle} className={newmode} style={styleObj1}
              onClick={(e,mode)=>handleChangeMode(e,mode)}></a>
@@ -214,8 +332,8 @@ class Control extends React.Component{
           </span>
           <div className="tip tip-1" style={styleObj1}>循环</div>
         </div>
-        <audio ref={audio=>this._audio=audio} preload="auto" volumn={this.props.volumn}
-               src={this.props.play.mp3url} pause={this.props.pause} ></audio>
+        <audio ref={audio=>this._audio=audio} preload="auto" src={this.props.play.mp3Url} ></audio>
+
       </div>
     )
 
@@ -235,7 +353,10 @@ const mapStateToProps=(state)=>{
     pause:state.pause,
     volumn:state.volumn,
     totaltime:state.totaltime,
-    playtime:state.playtime
+    playtime:state.playtime,
+    buffered:state.buffered,
+    currenttime:state.currenttime,
+    duration:state.duration
   }
 }
 
@@ -294,6 +415,19 @@ const mapDispatchToProps=(dispatch)=>{
 
     setVol:(data)=>{
       dispatch(setVolumn(data))
+    },
+    handleDuration:(data)=>{
+      dispatch(getDuration(data))
+    },
+    handleCurrentTime:(data)=>{
+      dispatch(getCurrentTime(data))
+    },
+    handleBuffered:(data)=>{
+      dispatch(getBuffered(data))
+    },
+
+    handleSetCurrentTime:(data)=>{
+      dispatch(setCurrentTime(data))
     }
   }
 }

@@ -17,13 +17,16 @@ const initState={
   playtime:0,
   totaltime:0,
   mode:'circle' , //音量
+  currenttime:1,
+  duration:1000,
+  buffered:1,
   scrollbar1:{
     handleheight:0, //滚动条长度
     handletop:0,//gaodu
     barheight:0,//bar的总厂
     visiblerange:0,
     totalrange:0,
-    visibleSTop:0,//important control content
+    visibleSTop:0//important control content
   }
 }
 export default initState

@@ -59,7 +59,7 @@ it is a test,i want to konw how to setstate in mount
     const {addPlaying}=this.props;
     const collect=this.props.collect;
     return(
-    <li onClick={(e)=>{addPlaying(e,collect)}}>
+    <li onClick={(e)=>{addPlaying(e)}}>
       <div className="col col1">
         {collect.id===this.props.play.id?<PlayIcn/>:<Block/>}
       </div>
@@ -97,7 +97,7 @@ const mapDispatchToSongList=(dispatch,ownprops)=>{
       dispatch(playIndex(playindex,id))
     },
     addPlaying:(e)=>{
-      dispatch(addPlay(ownprops.collect));
+      dispatch(addPlay(ownprops.collect,ownprops.playindex));
 
       e.preventDefault();
       e.stopPropagation()
@@ -213,9 +213,9 @@ class List extends React.Component{
    */
   setScrollTop(value,handletop){//update scrolltop of content
     const {updateVisibleSTop} =this.props;
-    (function submit(value){
+
       updateVisibleSTop(value,handletop)
-    })(value)
+
   }
 
   onMouseDown1(e){

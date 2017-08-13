@@ -34,10 +34,11 @@ export const playPause=()=>{
   }
 };
 
-export const addPlay=(collect)=>{
+export const addPlay=(collect,key)=>{
   return {
     type:'ADD_PLAY',
-    play:collect
+    play:collect,
+    index:key
   }
 };
 /*
@@ -97,5 +98,30 @@ export const setVolumn=(data)=>{
   }
 }
 
+export const getDuration=(data)=>{
+  return {
+    type: 'GET_DURATION',
+    data:data
+  }
+}
+export const getCurrentTime=(data)=>{
+  return {
+    type: 'GET_CURRENTTIME',
+    data:data
+  }
+}
 
+export  const getBuffered=(data)=>{
+  return {
+    type:'GET_BUFFERED',
+    data:data
+  }
+}
+
+export const setCurrentTime=(data)=>{
+  return{
+    type:'SET_CURRENTTIME',
+    data:data
+  }
+}
 
