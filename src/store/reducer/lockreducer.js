@@ -183,7 +183,7 @@ export const lockReducer=(state,action)=>{
       return Object.assign({},state,{scrollbar2:_state});
 
     case 'SET_SCROLLHEIGHT':
-      _state=cloneDeep(state.scrollbar1);
+      _state=cloneDeep(state.scrollbar2);
       _state.totalrange=action.scrollheight;
       return Object.assign({},state,{scrollbar2:_state});
 

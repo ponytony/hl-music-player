@@ -164,6 +164,8 @@ class LrcList extends React.Component{
         });
     }
   }
+
+
   componentDidUpdate(){
     const url=this.props.play.lrcurl;
     const {handleSetLrc,handleScrollTop}=this.props;
@@ -188,8 +190,6 @@ class LrcList extends React.Component{
     if(scrollheight!==this.props.scrollBar2.totalrange){
       handleScrollTop(scrollheight)
     }
-
-
   }
 
 
@@ -344,10 +344,11 @@ class List extends React.Component{
     const barContent2=this.getElementNode(this._bar2div);
     const visibleBar2=barContent2.clientHeight;
     const handleHeight2=calculateHandleHeight(visibleBar2,visibleRange2,totalRange2);
-    console.log(totalRange2,'+',handleHeight2,'+',this.props.scrollBar2.handleheight)
+
     if(handleHeight2!==this.props.scrollBar2.handleheight){
       updataLrcHandleH(handleHeight2,totalRange2)
     }
+
   }
 
   getElementNode(ref){
@@ -417,9 +418,6 @@ class List extends React.Component{
       document.removeEventListener('mousemove',this.onDragHandleStart)
       document.removeEventListener('mouseup',this.onDragHandleEnd)
     }
-
-
-
   }
 
 
@@ -560,6 +558,28 @@ class List extends React.Component{
     e.stopPropagation()
   }
 
+  autoMoveForLrc(){
+    let newscrolltop;
+    let newhandletop;
+    const {barheight,visiblerange,totalrange,handleheight}=this.props.scrollBar2;
+    const maxrange=totalrange-visiblerange;
+
+
+    if(this.props.collect.lrcurl){
+      const playlrc=this.props.playlrc.data;
+      const playindex=this.props.playindex;
+      for(let i=3,len=playlrc.length;i<len;i++){
+        if(playlrc[0]===this.props.currenttime){
+          newscrolltop=(i-3)*32;
+          newhandletop=newscrolltop/maxrange*(barheight-handleheight);
+          this.setScrollTop2(newscrolltop,newhandletop)
+
+        }
+      }
+    }
+
+  }
+
 
 
   render(){
@@ -628,7 +648,10 @@ const mapStateToProps=(state)=>{
     collect:state.collect,
     play:state.play,
     scrollBar1:state.scrollbar1,
-    scrollBar2:state.scrollbar2
+    scrollBar2:state.scrollbar2,
+    currenttime:state.currenttime,
+    playlrc:state.playlrc,
+    playindex:state.playindex
   }
 }
 
