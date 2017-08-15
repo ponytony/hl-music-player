@@ -388,13 +388,13 @@ controlbar
         .rdy{
           background-position: right -30px!important;
           height: 9px;
-          width:1%;
+          width:0;
         }
         .cur{
           position:absolute;
           left: 0;
           top:0;
-          width:1%;
+          width:0;
           background-position:left -66px!important;
           height:9px;
           .btn{
@@ -572,6 +572,9 @@ player list and lrc etc.
       line-height: 39px;
       font-size: 14px;
       color: #e2e2e2;
+      .topspan{
+        color: #e2e2e2;
+      }
     }
     .addall{
       left: 398px;
@@ -678,6 +681,13 @@ player list and lrc etc.
       height: 260px;
       width: 553px;
       overflow: hidden;
+      .white{
+        color:#fff;
+        .col{
+          color:#fff !important;
+        }
+
+      }
       .nocnt{
         padding-top: 85px;
         text-align: center;
@@ -813,7 +823,6 @@ player list and lrc etc.
       border: 1px solid #a6a6a6;
       opacity: .8;
       filter: Alpha(opacity=80);
-      transition: top .2s ease-in-out;
     }
     .scroll-1{
       left: auto;
@@ -864,7 +873,7 @@ player list and lrc etc.
       //_left: 560px;
       top: 0;
       z-index: 3;
-      width: 420px;
+      width: 418px;
       height: 250px;
       background: #121212;
       opacity: .01;
@@ -901,9 +910,12 @@ player list and lrc etc.
         min-height: 32px;
         transition: color 0.7s linear;
       }
-
+      .changecolor{
+        color: #fff;
+        font-size: 14px;
+        transition: color 0.7s linear;
+      }
     }
-
   }
 
 }

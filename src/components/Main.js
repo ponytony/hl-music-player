@@ -18,7 +18,6 @@ class AppComponent extends React.Component {
   */
 
 
-
   handleMouseOver(e){
     const stage=findDOMNode(this.refs.stage);
     stage.style.top='-53px';

@@ -11,6 +11,9 @@ export const secondToTime = (second) => {
   if (isNaN(second)) {
     return '00:00';
   }
+  if(second>10000){
+    return '00:00';
+  }
   const add0 = (num) => {
     return num < 10 ? '0' + num : '' + num;
   };

@@ -100,6 +100,9 @@ export const lockReducer=(state,action)=>{
     case 'SET_DATA':
       return Object.assign({},state,{scrollbar1:action.data});
 
+    case 'SET_DATA2':
+      return Object.assign({},state,{scrollbar2:action.data});
+
     case 'UPDATE_STOP':
       let _state=cloneDeep(state.scrollbar1);
       _state.visibleSTop=action.data;
@@ -131,6 +134,61 @@ export const lockReducer=(state,action)=>{
 
     case 'SET_CURRENTTIME':
       return Object.assign({},state,{currenttime:action.data});
+
+    case 'DEL_ACOLLECT':
+      _state=cloneDeep(state.collect);
+      _state.splice(action.index,1);
+      let index=action.index
+      if(state.playindex===-1){
+        newcollect={};
+        playindex=-1;
+      }
+      else if(_state[state.playindex]){
+        newcollect=_state[state.playindex]
+        playindex=state.playindex
+      }else if(!_state[index]&&_state[0]&&state.playindex===index){
+        newcollect=_state[0]
+        playindex=0
+      } else{
+        newcollect={}
+        playindex=-1
+      }
+
+
+      return Object.assign({},state,{collect:_state,playindex:playindex,play:newcollect});
+
+    case'CLEAN_LIST':
+      return Object.assign({},state,{collect:[],playindex:-1,play:{},duration:0,buffered:0,currenttime:0,playlrc:[]});
+
+    case 'SET_LRC':
+      return Object.assign({},state,{playlrc:action.data});
+
+    case 'UPDATE_HANDLEh':
+
+      _state=cloneDeep(state.scrollbar1);
+      _state.totalrange=action.totalrange;
+      _state.handleheight=action.handleheight;
+      return Object.assign({},state,{scrollbar1:_state});
+
+    case 'UPDATE_LRCHANDLEH':
+      _state=cloneDeep(state.scrollbar2);
+      _state.totalrange=action.totalrange;
+      _state.handleheight=action.handleheight;
+      return Object.assign({},state,{scrollbar2:_state});
+
+    case 'UPDATE_VISIBLESTOP2':
+      _state=cloneDeep(state.scrollbar1);
+      _state.visibleSTop=action.scrolltop;
+      _state.handletop=action.handletop;
+      return Object.assign({},state,{scrollbar2:_state});
+
+    case 'SET_SCROLLHEIGHT':
+      _state=cloneDeep(state.scrollbar1);
+      _state.totalrange=action.scrollheight;
+      return Object.assign({},state,{scrollbar2:_state});
+
+
+
 
 
     default:

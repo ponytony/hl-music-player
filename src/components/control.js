@@ -121,11 +121,12 @@ class Control extends React.Component{
     this._audio.pause()//init the audio
     //this._audio.play()
    // this._audio.pause();
-    this._audio.volume=this.props.volumn/100
+    this._audio.volume=this.props.volumn/100;
     this._audio.addEventListener('loadedmetadata',()=>this.handleDuration());
-    this._audio.addEventListener('progress',()=>this.handleBuffered())
+    this._audio.addEventListener('progress',()=>this.handleBuffered());
     this._audio.addEventListener('timeupdate',()=>this.handleCurrentTime());
     this._audio.addEventListener('ended',(e)=>this.handleEnded(e));
+    this._audio.addEventListener('error',()=>this.handleError());
 
 
     //this._audio.muted=(this.props.volumn===(0||1||2)?true:false);
@@ -234,6 +235,27 @@ class Control extends React.Component{
 
   }
 
+  onMouseDownForClick(e){
+    const{handleSetCurrentTime}=this.props
+    e.preventDefault()
+    if(!this.isOnNode(e,this._timebar)){
+
+      return
+    }
+    let clientY
+    clientY=e.clientX-findDOMNode(this._timebar).getBoundingClientRect().left;
+    if(clientY===0){
+      clientY=1
+    }
+    const newCurrentTime=Math.floor(clientY/493*this.props.duration)
+    this._audio.currentTime=newCurrentTime
+    handleSetCurrentTime(newCurrentTime)
+  }
+
+  handleError(){
+    console.log('Error ' + this._audio.error.code + '; details: ' + this._audio.error.message)
+  }
+
 
 
 
@@ -290,18 +312,19 @@ class Control extends React.Component{
             {!this.props.play?<div></div>:<TopBar/>}
           </div>
           <div className="play-bar">
-            <div className="time-bar" style={styleObj4} ref={div=>this._timebar=div}>
+            <div className="time-bar" style={styleObj4} ref={div=>this._timebar=div}
+                 onClick={(e)=>this.onMouseDownForClick(e)}>
               <div className="rdy"
-                   style={{...styleObj4,'width':(this.props.buffered)/this.props.duration*493}}></div>
+                   style={{...styleObj4,'width':(this.props.buffered+0.01)/this.props.duration*493}}></div>
               <div className="cur"
-                   style={{...styleObj4,'width':(this.props.currenttime)/this.props.duration*493}}>
+                   style={{...styleObj4,'width':(this.props.currenttime+0.01)/this.props.duration*493}}>
                 <span className="btn" style={styleObj5} ref={span=>this._btn=span}
                       onMouseDown={(e)=>this.onMouseDownForBar(e)}><i></i></span>
               </div>
             </div>
             <span className="total-time">
               <em className="playing-time">{secondToTime(this.props.currenttime)}</em>
-              {secondToTime(this.props.duration)}
+              /{secondToTime(this.props.duration)}
             </span>
           </div>
         </div>

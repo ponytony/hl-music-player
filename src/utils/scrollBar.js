@@ -12,8 +12,8 @@
 
 export const calculateHandleHeight=(barheight,visiblerange,totalrange)=>{
   let newdata;
-  if(totalrange/visiblerange<=1){
-    newdata=0
+  if(totalrange<=visiblerange){
+    newdata=barheight
   }else{
     newdata=barheight/(totalrange/visiblerange)
   }

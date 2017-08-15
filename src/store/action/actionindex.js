@@ -125,3 +125,70 @@ export const setCurrentTime=(data)=>{
   }
 }
 
+export const delACollect=(index)=>{
+  return {
+    type:'DEL_ACOLLECT',
+    index:index
+  }
+}
+
+export const cleanList=()=>{
+  return {
+    type:'CLEAN_LIST'
+  }
+}
+
+export const setLrc=(data)=>{
+  return{
+    type:'SET_LRC',
+    data:data
+  }
+}
+
+export const setData2=(handleheight, handletop, barheight,
+                       visiblerange, totalrange, visibleSTop)=> {
+  return {
+    type: 'SET_DATA2',
+    data: {
+      handleheight: handleheight,
+      handletop: handletop,
+      barheight: barheight,
+      visiblerange: visiblerange,
+      totalrange: totalrange,
+      visibleSTop: visibleSTop
+    }
+  }
+}
+
+export const updateHandleH=(handleheight,totalrange)=>{
+  return {
+    type:'UPDATE_HANDLEh',
+    handleheight:handleheight,
+    totalrange:totalrange
+  }
+}
+
+export const updateLrcHandleH=(handleheight,totalrange)=>{
+  return{
+    type:'UPDATE_LRCHANDLEH',
+    handleheight:handleheight,
+    totalrange:totalrange
+  }
+}
+
+export const updateVisibleSTop2=(scrolltop,handletop)=>{
+  return{
+    type:'UPDATE_VISIBLESTOP2',
+    scrolltop:scrolltop,
+    handletop:handletop
+  }
+}
+
+export const setScrollHeight=(data)=>{
+  return{
+    type:'SET_SCROLLHEIGHT',
+    scrollheight:data
+  }
+}
+
+
