@@ -75,7 +75,7 @@ export const lockReducer=(state,action)=>{
       }
       if(state.mode==='circle'){
         playindex+=1;
-        if(playindex>state.collect.length){
+        if(playindex>=state.collect.length){
           playindex=0
         }
       }else if(state.mode==='shuffle'){
@@ -177,7 +177,7 @@ export const lockReducer=(state,action)=>{
       return Object.assign({},state,{scrollbar2:_state});
 
     case 'UPDATE_VISIBLESTOP2':
-      _state=cloneDeep(state.scrollbar1);
+      _state=cloneDeep(state.scrollbar2);
       _state.visibleSTop=action.scrolltop;
       _state.handletop=action.handletop;
       return Object.assign({},state,{scrollbar2:_state});
@@ -186,6 +186,10 @@ export const lockReducer=(state,action)=>{
       _state=cloneDeep(state.scrollbar2);
       _state.totalrange=action.scrollheight;
       return Object.assign({},state,{scrollbar2:_state});
+
+    case 'SET_PLAYINDEX1':
+
+      return Object.assign({},state,{playindex1:action.playindex1});
 
 
 

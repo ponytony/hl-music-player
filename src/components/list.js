@@ -14,7 +14,7 @@ import {connect} from 'react-redux';
 import axios from 'axios'
 import icons from '../utils/parseIcon';
 import {showList,playIndex,addPlay,setData,updateSTop,delACollect,cleanList,setLrc,setData2,
-updateHandleH,updateLrcHandleH,updateVisibleSTop2,setScrollHeight} from 'action/actionindex'
+updateHandleH,updateLrcHandleH,updateVisibleSTop2,setScrollHeight,serPlayindex1} from 'action/actionindex'
 import {calculateHandleHeight,calculateNewHandlePos,calculateScrollTop} from 'utils/scrollBar'
 import {parseLrc} from 'utils/parseLrc'
 
@@ -185,6 +185,7 @@ class LrcList extends React.Component{
           handleSetLrc(newdata);
         });
     }
+
     //打了一个补丁，因为在LIST中无法正确获取更新后的LRCLIST组件的scrollheight
     const scrollheight=this._div.scrollHeight;
     if(scrollheight!==this.props.scrollBar2.totalrange){
@@ -349,6 +350,13 @@ class List extends React.Component{
       updataLrcHandleH(handleHeight2,totalRange2)
     }
 
+    if(this.props.play.lrcurl&&this.props.playlrc.data){
+      this.autoMoveForLrc()
+    }
+
+    if(this.props.playindex1!==this.props.playindex&&this.props.collect.length>9) {
+      this.autoMoveForSongList()
+    }
   }
 
   getElementNode(ref){
@@ -564,20 +572,35 @@ class List extends React.Component{
     const {barheight,visiblerange,totalrange,handleheight}=this.props.scrollBar2;
     const maxrange=totalrange-visiblerange;
 
-
-    if(this.props.collect.lrcurl){
-      const playlrc=this.props.playlrc.data;
-      const playindex=this.props.playindex;
-      for(let i=3,len=playlrc.length;i<len;i++){
-        if(playlrc[0]===this.props.currenttime){
-          newscrolltop=(i-3)*32;
-          newhandletop=newscrolltop/maxrange*(barheight-handleheight);
-          this.setScrollTop2(newscrolltop,newhandletop)
-
-        }
+    const playlrc=this.props.playlrc.data;
+    for(let i=3,len=playlrc.length;i<len;i++){
+      if(playlrc[i][0]===this.props.currenttime){
+        newscrolltop=(i-3)*32;
+        newhandletop=newscrolltop/maxrange*(barheight-handleheight);
       }
     }
+    if(newscrolltop&&newhandletop&&newscrolltop!==this.props.scrollBar2.visibleSTop){
+      this.setScrollTop2(newscrolltop,newhandletop)
+      this._songlrc.scrollTop=newscrolltop
+    }
+  }
 
+  autoMoveForSongList(){
+    const {handleSetPlayindex1}=this.props;
+    const {barheight,visiblerange,totalrange,handleheight}=this.props.scrollBar1;
+    if(this.props.playindex<Math.ceil(this.props.scrollBar1.visibleSTop/28)){
+      const newscrolltop=this.props.playindex*28;
+      const newhandletop=newscrolltop/(totalrange-visiblerange)*(barheight-handleheight);
+      this.setScrollTop(newscrolltop,newhandletop);
+      this._songlist.scrollTop=newscrolltop
+    }else if(this.props.playindex>Math.floor(this.props.scrollBar1.visibleSTop/28+8)){
+      const newscrolltop=(this.props.playindex-8)*28;
+      const newhandletop=newscrolltop/(totalrange-visiblerange)*(barheight-handleheight);
+      this.setScrollTop(newscrolltop,newhandletop);
+      this._songlist.scrollTop=newscrolltop
+    }
+
+    handleSetPlayindex1(this.props.playindex)
   }
 
 
@@ -651,7 +674,8 @@ const mapStateToProps=(state)=>{
     scrollBar2:state.scrollbar2,
     currenttime:state.currenttime,
     playlrc:state.playlrc,
-    playindex:state.playindex
+    playindex:state.playindex,
+    playindex1:state.playindex1
   }
 }
 
@@ -691,6 +715,9 @@ const mapDispatchToProps=(dispatch)=> {
     },
     updataScrolltop:(scrolltop,handletop)=>{
       dispatch(updateVisibleSTop2(scrolltop,handletop))
+    },
+    handleSetPlayindex1:(data)=>{
+      dispatch(serPlayindex1(data))
     }
   }
 }

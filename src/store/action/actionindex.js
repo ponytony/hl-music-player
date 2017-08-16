@@ -191,4 +191,11 @@ export const setScrollHeight=(data)=>{
   }
 }
 
+export const serPlayindex1=(data)=>{
+  return{
+    type:'SET_PLAYINDEX1',
+    playindex1:data
+  }
+}
+
 
