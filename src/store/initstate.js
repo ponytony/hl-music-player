@@ -14,7 +14,7 @@ const initState={
   play:{},//正在播放
   pause:true,
   playindex:-1,
-  playindex1:-1,
+  playindex1:-1,//为了在playindex切换时更新列表的scrolltop
   playtime:0,
   totaltime:0,
   mode:'circle' , //音量

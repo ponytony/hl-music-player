@@ -116,7 +116,7 @@ class Control extends React.Component{
   }
   */
   componentDidMount(){
-
+    const {handleKeyprev,handleKeyNext}=this.props
 
     this._audio.pause()//init the audio
     //this._audio.play()
@@ -128,7 +128,8 @@ class Control extends React.Component{
     this._audio.addEventListener('ended',(e)=>this.handleEnded(e));
     this._audio.addEventListener('error',()=>this.handleError());
 
-
+    document.addEventListener('keydown',handleKeyprev)
+    document.addEventListener('keydown',handleKeyNext)
     //this._audio.muted=(this.props.volumn===(0||1||2)?true:false);
   }
 
@@ -272,7 +273,7 @@ class Control extends React.Component{
     styleObj5.background='url('+icons.iconall+')';
 
     const {handleShowList,handleShowVolBar,handleChangeMode,mode,handleNext,
-      handlePrev,handleKeyPrev,handleKeyNext,handlePlayButton}=this.props;
+      handlePrev,handleKeyprev,handleKeyNext,handlePlayButton}=this.props;
 
     let newmode,newtitle;
     if(mode==='circle'){
@@ -286,20 +287,15 @@ class Control extends React.Component{
       newtitle='单曲循环'
     }
 
-
-
-
-
-
     return (
       <div className="control">
         <div className="btns">
           <a className="prev" title="上一首（←)" style={styleObj1}
-             onClick={(e)=>handlePrev(e)}  onKeyDown={(e)=>{handleKeyPrev(e)}}>上一首</a>
+             onClick={(e)=>handlePrev(e)}  onKeyUp={(e)=>{handleKeyPrev(e)}} ref={a=>this._prev=a}>上一首</a>
           <a className={this.props.pause?'pause':'play'} title="播放/暂停(p)" style={styleObj1}
              onClick={(e)=>handlePlayButton(e)}>播放/暂停</a>
           <a className="next" title="下一首(→)" style={styleObj1}
-             onClick={(e)=>handleNext(e)} onKeyDown={(e)=>handleKeyNext(e)}>下一首</a>
+             onClick={(e)=>handleNext(e)} onKeyUp={(e)=>handleKeyNext(e)} ref={a=>this._next=a}>下一首</a>
         </div>
         <div className="head">
           <img src={this.props.play.img}/>
