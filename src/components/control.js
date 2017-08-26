@@ -291,7 +291,7 @@ class Control extends React.Component{
       <div className="control">
         <div className="btns">
           <a className="prev" title="上一首（←)" style={styleObj1}
-             onClick={(e)=>handlePrev(e)}  onKeyUp={(e)=>{handleKeyPrev(e)}} ref={a=>this._prev=a}>上一首</a>
+             onClick={(e)=>handlePrev(e)}  onKeyUp={(e)=>{handleKeyprev(e)}} ref={a=>this._prev=a}>上一首</a>
           <a className={this.props.pause?'pause':'play'} title="播放/暂停(p)" style={styleObj1}
              onClick={(e)=>handlePlayButton(e)}>播放/暂停</a>
           <a className="next" title="下一首(→)" style={styleObj1}
