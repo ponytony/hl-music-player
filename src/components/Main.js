@@ -50,11 +50,6 @@ class AppComponent extends React.Component {
           <Control/>
           <List ref="list"/>
 
-          <audio></audio>
-          <audio></audio>
-
-
-
       </div>
 
       </div>

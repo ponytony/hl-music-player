@@ -118,7 +118,7 @@ class Control extends React.Component{
   componentDidMount(){
     const {handleKeyprev,handleKeyNext}=this.props
 
-    this._audio.pause()//init the audio
+    this._audio.load()//init the audio
     //this._audio.play()
    // this._audio.pause();
     this._audio.volume=this.props.volumn/100;
@@ -291,7 +291,7 @@ class Control extends React.Component{
       <div className="control">
         <div className="btns">
           <a className="prev" title="上一首（←)" style={styleObj1}
-             onClick={(e)=>handlePrev(e)}  onKeyUp={(e)=>{handleKeyPrev(e)}} ref={a=>this._prev=a}>上一首</a>
+             onClick={(e)=>handlePrev(e)}  onKeyUp={(e)=>{handleKeyprev(e)}} ref={a=>this._prev=a}>上一首</a>
           <a className={this.props.pause?'pause':'play'} title="播放/暂停(p)" style={styleObj1}
              onClick={(e)=>handlePlayButton(e)}>播放/暂停</a>
           <a className="next" title="下一首(→)" style={styleObj1}
@@ -351,7 +351,7 @@ class Control extends React.Component{
           </span>
           <div className="tip tip-1" style={styleObj1}>循环</div>
         </div>
-        <audio ref={audio=>this._audio=audio} preload="auto" src={this.props.play.mp3Url} ></audio>
+        <audio  ref={audio=>this._audio=audio} preload="auto" src={this.props.play.mp3Url} ></audio>
 
       </div>
     )
