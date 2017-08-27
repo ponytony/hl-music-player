@@ -11,16 +11,11 @@ import songurl1 from './utils/parseSong';
 import logger from 'redux-logger'
 
 initState.collect=songurl1
-
-
-
 const store = createStore(lockReducer,initState,applyMiddleware(logger));
 
 ReactDOM.render(
   <Provider store={store}>
   <App />
-  </Provider>
-    ,document.getElementById('app')
-
+  </Provider>,document.getElementById('app')
 );
 
