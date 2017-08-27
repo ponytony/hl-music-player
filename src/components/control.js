@@ -287,6 +287,9 @@ class Control extends React.Component{
       newtitle='单曲循环'
     }
 
+    let source=this.props.play.mp3Url;
+    let newsource=source.replace(/http:/g,'')
+
     return (
       <div className="control">
         <div className="btns">
@@ -351,7 +354,7 @@ class Control extends React.Component{
           </span>
           <div className="tip tip-1" style={styleObj1}>循环</div>
         </div>
-        <audio  ref={audio=>this._audio=audio} preload="auto" src={this.props.play.mp3Url.replace(/http:/g,'')} ></audio>
+        <audio  ref={audio=>this._audio=audio} preload="auto" src={newsource} ></audio>
 
       </div>
     )
