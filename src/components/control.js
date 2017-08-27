@@ -351,7 +351,7 @@ class Control extends React.Component{
           </span>
           <div className="tip tip-1" style={styleObj1}>循环</div>
         </div>
-        <audio  ref={audio=>this._audio=audio} preload="auto" src={this.props.play.mp3Url} ></audio>
+        <audio  ref={audio=>this._audio=audio} preload="auto" src={this.props.play.mp3Url.replace(/http:/g,'')} ></audio>
 
       </div>
     )
