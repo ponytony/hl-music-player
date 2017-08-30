@@ -49,7 +49,7 @@ function getDefaultModules() {
         loader: 'url-loader?limit=8192'
       },
       {
-        test: /\.(mp4|ogg|svg|lrc)$/,
+        test: /\.(mp4|ogg|svg|lrc|mp3)$/,
         loader: 'file-loader'
       },
       {

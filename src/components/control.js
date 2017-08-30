@@ -9,6 +9,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom'
 import {connect} from 'react-redux'
+import axios from 'axios';
 import icons from '../utils/parseIcon';
 import {secondToTime} from 'utils/parseTime'
 import {showList,showVolBar,changeMode,next,prev,playButton,setVolumn,getDuration,getCurrentTime,
@@ -289,13 +290,34 @@ class Control extends React.Component{
     let newsourcr=''
     if(this.props.play.mp3Url){
       const source=this.props.play.mp3Url;
-      console.log(this.props.play,this.props.play.mp3Url)
       newsourcr=source.replace(/http:/g,'')
     }else{
       newsourcr=''
     }
+/*
+    跨域，以后再说
 
+    const instance = axios.create({
 
+      headers:{
+        'Content-Type':'application/x-www-form-urlencoded',
+        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Methods':'GET',
+        'Access-Control-Allow-Headers':'x-requested-with,content-type'
+      },
+      transformRequest: [function (data) {
+
+        data = JSON.stringify(data);
+        return data;
+      }],
+      withCredentials:true
+    });
+    instance.get('http://link.hhtjim.com/163/18094989.mp3')
+      .then(function(data){
+        console.log(data)
+      })
+
+*/
 
     return (
       <div className="control">
