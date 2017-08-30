@@ -8,10 +8,8 @@ a music player as sanme as wangyi-yun music player based on react
 https://github.com/ponytony/hl-music-player
 ```
 
-  预览地址：
-  ```
-https://ponytony.github.io/hl-music-player/
-```
+  [预览地址](https://ponytony.github.io/hl-music-player)
+
 
   下载：
   ```

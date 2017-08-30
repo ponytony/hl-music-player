@@ -286,8 +286,15 @@ class Control extends React.Component{
       newmode='mode icn-one';
       newtitle='单曲循环'
     }
-    let source=this.props.play.mp3Url;
-    let newsourcr=source.replace(/http:/g,'')
+    let newsourcr=''
+    if(this.props.play.mp3Url){
+      const source=this.props.play.mp3Url;
+      console.log(this.props.play,this.props.play.mp3Url)
+      newsourcr=source.replace(/http:/g,'')
+    }else{
+      newsourcr=''
+    }
+
 
 
     return (
@@ -354,7 +361,7 @@ class Control extends React.Component{
           </span>
           <div className="tip tip-1" style={styleObj1}>循环</div>
         </div>
-        <audio  ref={audio=>this._audio=audio} preload="auto" src={{newsourcr}}></audio>
+        <audio  ref={audio=>this._audio=audio} preload="auto" src={newsourcr}></audio>
 
       </div>
     )
